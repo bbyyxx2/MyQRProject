@@ -1,4 +1,4 @@
-package com.bbyyxx2.myqrproject.ui.dashboard;
+package com.bbyyxx2.myqrproject.ui.scan;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,24 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bbyyxx2.myqrproject.R;
-import com.bbyyxx2.myqrproject.databinding.FragmentDashboardBinding;
+import com.bbyyxx2.myqrproject.databinding.FragmentHomeBinding;
 
-public class DashboardFragment extends Fragment {
+public class ScanFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
-    private FragmentDashboardBinding binding;
+    private ScanViewModel homeViewModel;
+    private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        homeViewModel =
+                new ViewModelProvider(this).get(ScanViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textHome;
+        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">MyQRProject</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">快扫码</string>
+    <string name="title_scan">扫  码</string>
+    <string name="title_qrcode">生  码</string>
+    <string name="title_setting">设  置</string>
 </resources>

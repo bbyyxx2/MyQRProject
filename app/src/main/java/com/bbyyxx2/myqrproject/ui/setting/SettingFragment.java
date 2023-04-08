@@ -1,4 +1,4 @@
-package com.bbyyxx2.myqrproject.ui.notifications;
+package com.bbyyxx2.myqrproject.ui.setting;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,18 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.databinding.FragmentNotificationsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class SettingFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private SettingViewModel notificationsViewModel;
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+                new ViewModelProvider(this).get(SettingViewModel.class);
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

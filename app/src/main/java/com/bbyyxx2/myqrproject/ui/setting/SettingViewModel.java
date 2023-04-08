@@ -1,14 +1,14 @@
-package com.bbyyxx2.myqrproject.ui.notifications;
+package com.bbyyxx2.myqrproject.ui.setting;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class SettingViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public SettingViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }
