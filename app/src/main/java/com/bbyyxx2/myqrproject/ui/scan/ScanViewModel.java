@@ -10,10 +10,13 @@ public class ScanViewModel extends ViewModel {
 
     public ScanViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public void setText(String s){
+        mText.postValue(s);
     }
 }
