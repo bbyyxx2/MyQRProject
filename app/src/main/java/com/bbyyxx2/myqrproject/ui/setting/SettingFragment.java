@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bbyyxx2.myqrproject.databinding.FragmentNotificationsBinding;
+import com.bbyyxx2.myqrproject.databinding.FragmentSettingBinding;
 
 public class SettingFragment extends Fragment {
 
-    private SettingViewModel notificationsViewModel;
-    private FragmentNotificationsBinding binding;
+    private SettingViewModel settingViewModel;
+    private FragmentSettingBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
+        settingViewModel =
                 new ViewModelProvider(this).get(SettingViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentSettingBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        settingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -9,17 +9,17 @@
         android:id="@+id/navigation_scan"
         android:name="com.bbyyxx2.myqrproject.ui.scan.ScanFragment"
         android:label="@string/title_scan"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_scan" />
 
     <fragment
         android:id="@+id/navigation_qrcode"
         android:name="com.bbyyxx2.myqrproject.ui.qrcode.QrcodeFragment"
         android:label="@string/title_qrcode"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_qrcode" />
 
     <fragment
         android:id="@+id/navigation_setting"
         android:name="com.bbyyxx2.myqrproject.ui.setting.SettingFragment"
         android:label="@string/title_setting"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_setting" />
 </navigation>

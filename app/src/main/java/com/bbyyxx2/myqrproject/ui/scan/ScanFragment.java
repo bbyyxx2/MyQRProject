@@ -18,14 +18,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bbyyxx2.myqrproject.MainActivity;
-import com.bbyyxx2.myqrproject.databinding.FragmentHomeBinding;
+import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 
 public class ScanFragment extends Fragment implements MainActivity.IOnActivityResult {
 
-    private ScanViewModel homeViewModel;
-    private FragmentHomeBinding binding;
+    private ScanViewModel scanViewModel;
+    private FragmentScanBinding binding;
     private Context context;
     private Activity activity;
 
@@ -37,10 +37,10 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
+        scanViewModel =
                 new ViewModelProvider(this).get(ScanViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentScanBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         context = this.getContext();
@@ -64,7 +64,7 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
         });
 
         ((MainActivity) activity).setiOnActivityResult(this);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        scanViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 binding.content.setText(s);
@@ -78,7 +78,7 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
             HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
              Log.e("test111","value=" + obj.originalValue);
             if (obj != null) {
-                homeViewModel.setText(obj.originalValue);
+                scanViewModel.setText(obj.originalValue);
             }
     }
 

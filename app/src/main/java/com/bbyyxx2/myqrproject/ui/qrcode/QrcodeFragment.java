@@ -12,23 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bbyyxx2.myqrproject.databinding.FragmentDashboardBinding;
+import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
 
 public class QrcodeFragment extends Fragment {
 
-    private QrcodeViewModel dashboardViewModel;
-    private FragmentDashboardBinding binding;
+    private QrcodeViewModel qrcodeViewModel;
+    private FragmentQrcodeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
+        qrcodeViewModel =
                 new ViewModelProvider(this).get(QrcodeViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentQrcodeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        qrcodeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
