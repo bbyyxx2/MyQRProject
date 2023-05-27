@@ -43,5 +43,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'com.huawei.hms:scanplus:2.10.0.301'
+
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0' // ViewPager 2 需要使用 RecycleView 的 adapter
+
 }
 apply plugin: 'com.huawei.agconnect'

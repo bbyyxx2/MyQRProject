@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -15,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bbyyxx2.myqrproject.databinding.ActivityMainBinding;
 import com.bbyyxx2.myqrproject.ui.scan.ScanFragment;
+import com.google.android.material.navigation.NavigationBarView;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
@@ -22,6 +25,7 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private MainPagerAdapter adapter;
 
     private static final int CAMERA_REQ_CODE = 111;
     private static final int REQUEST_CODE_SCAN_ONE = 0X01;
@@ -47,15 +51,32 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_scan, R.id.navigation_qrcode, R.id.navigation_setting)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        //这个只有有bar的主题或者布局里加toolbar才能用不然会报错
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        initView();
+    }
+
+    private void initView(){
+        if (adapter == null){
+            adapter = new MainPagerAdapter(this);
+        }
+        binding.viewPager.setAdapter(adapter);
+
+        binding.navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_scan:
+                        binding.viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.navigation_qrcode:
+                        binding.viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.navigation_setting:
+                        binding.viewPager.setCurrentItem(2);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
