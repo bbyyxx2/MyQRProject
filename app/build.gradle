@@ -50,6 +50,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0' // ViewPager 2 需要使用 RecycleView 的 adapter
     //腾讯MMKV
     implementation 'com.tencent:mmkv:1.2.11'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 
 }

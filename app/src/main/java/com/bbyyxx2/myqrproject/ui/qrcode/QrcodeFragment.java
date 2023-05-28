@@ -13,33 +13,28 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
+import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 
-public class QrcodeFragment extends Fragment {
+public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
 
-    private QrcodeViewModel qrcodeViewModel;
-    private FragmentQrcodeBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        qrcodeViewModel =
-                new ViewModelProvider(this).get(QrcodeViewModel.class);
-
-        binding = FragmentQrcodeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textDashboard;
-        qrcodeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+    @Override
+    protected FragmentQrcodeBinding inflateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentQrcodeBinding.inflate(inflater, container, false);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initListener() {
+        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                binding.textDashboard.setText(s);
+            }
+        });
     }
 }

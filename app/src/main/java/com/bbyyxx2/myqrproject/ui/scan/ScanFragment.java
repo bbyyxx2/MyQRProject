@@ -19,15 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bbyyxx2.myqrproject.MainActivity;
 import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
+import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 
-public class ScanFragment extends Fragment implements MainActivity.IOnActivityResult {
-
-    private ScanViewModel scanViewModel;
-    private FragmentScanBinding binding;
-    private Context context;
-    private Activity activity;
+public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewModel> implements MainActivity.IOnActivityResult {
 
     private static final int CAMERA_REQ_CODE = 111;
     private static final String[] permission = new String[]{
@@ -35,27 +31,13 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        scanViewModel =
-                new ViewModelProvider(this).get(ScanViewModel.class);
+    @Override
+    protected void initView() {
 
-        binding = FragmentScanBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        context = this.getContext();
-        activity = this.getActivity();
-
-        init();
-        initListener();
-
-        return root;
     }
 
-    private void init() {
-    }
-
-    private void initListener(){
+    @Override
+    protected void initListener() {
         binding.scanBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +46,7 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
         });
 
         ((MainActivity) activity).setiOnActivityResult(this);
-        scanViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 binding.content.setText(s);
@@ -73,18 +55,17 @@ public class ScanFragment extends Fragment implements MainActivity.IOnActivityRe
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
-             Log.e("test111","value=" + obj.originalValue);
-            if (obj != null) {
-                scanViewModel.setText(obj.originalValue);
-            }
+    protected FragmentScanBinding inflateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentScanBinding.inflate(inflater, container, false);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+        Log.e("test111","value=" + obj.originalValue);
+        if (obj != null) {
+            viewModel.setText(obj.originalValue);
+        }
     }
 }

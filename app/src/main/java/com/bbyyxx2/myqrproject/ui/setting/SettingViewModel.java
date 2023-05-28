@@ -6,14 +6,18 @@ import androidx.lifecycle.ViewModel;
 
 public class SettingViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<String> versionName;
 
     public SettingViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        versionName = new MutableLiveData<>();
+        versionName.setValue("This is notifications fragment");
     }
 
     public LiveData<String> getText() {
-        return mText;
+        return versionName;
+    }
+
+    public void setVersionName(String s){
+        versionName.postValue(s);
     }
 }
