@@ -66,7 +66,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
             OkhttpUtil.getInstance(context)
                     .setUrl("app/check")
                     .addBody("_api_key","89efd6870e572d850f2070111a9c8ee4")
-                    .addBody("appKey","5372e3bf7e1026b91aec511b9a4fc958")
+                    .addBody("appKey","192b1f7aa331090c61bccfae3f3723f5")
                     .addBody("buildVersion",CommentUtil.getVersionName(context))
                     .buildRequest("POST", new OkhttpUtil.OnRequest() {
                         @Override
@@ -120,7 +120,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
         StringBuilder url = new StringBuilder("https://www.pgyer.com/apiv2/app/install?_api_key=89efd6870e572d850f2070111a9c8ee4");
         url.append("&buildKey=").append(buildKey);
-        url.append("&buildPassword=").append("bobtest");
+        url.append("&buildPassword=").append("bbyyxx2test");
 
         Uri uri = Uri.parse(url.toString());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
