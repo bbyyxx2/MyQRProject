@@ -39,6 +39,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    //链接更新类
+    implementation project(path: ':dandelion')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
@@ -46,6 +48,9 @@ dependencies {
 
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0' // ViewPager 2 需要使用 RecycleView 的 adapter
+    //腾讯MMKV
+    implementation 'com.tencent:mmkv:1.2.11'
+
 
 }
 apply plugin: 'com.huawei.agconnect'
