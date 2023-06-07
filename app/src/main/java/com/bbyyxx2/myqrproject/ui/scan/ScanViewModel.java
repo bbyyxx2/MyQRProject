@@ -17,6 +17,6 @@ public class ScanViewModel extends ViewModel {
     }
 
     public void setText(String s){
-        mText.postValue(s);
+        mText.setValue(s);
     }
 }
