@@ -2,10 +2,19 @@ package com.bbyyxx2.myqrproject.ui.qrcode;
 
 import static com.huawei.hms.framework.common.ContextCompat.getSystemService;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,21 +23,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.hmsscankit.WriterException;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
 import com.huawei.hms.ml.scan.HmsScan;
+import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.RequestCallback;
 
+import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
@@ -89,5 +106,73 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             }
         });
 
+        binding.qrIv.setOnLongClickListener(v -> {
+            if (((ImageView)v).getDrawable() == null){
+                return false;
+            }
+            if (((BitmapDrawable) ((ImageView)v).getDrawable()) == null){
+                return false;
+            }
+            if (((BitmapDrawable) ((ImageView)v).getDrawable()).getBitmap() == null){
+                return false;
+            }
+
+            PermissionX.init((FragmentActivity) activity)
+                    .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .request(new RequestCallback() {
+                        @Override
+                        public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                            if (allGranted){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("提示");
+                                builder.setMessage("是否保存图片");
+                                builder.setCancelable(true);
+                                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        saveImage(binding.qrIv);
+                                    }
+                                });
+                                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.create().show();
+                            } else {
+                                Toast.makeText(context, deniedList + "权限被拒绝", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+            return true;
+        });
+
+    }
+
+    private void saveImage(ImageView imageView){
+        BitmapDrawable bmpDrawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = bmpDrawable.getBitmap();
+        if (bitmap==null){
+            return;
+        }
+        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "HaiGouShareCode", "");
+        //如果是4.4及以上版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String fileName = "QR" + TimeUtil.getFormatCurrTime() + ".png";
+            File mPhotoFile = new File(fileName);
+            Intent mediaScanIntent = new Intent(
+                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(mPhotoFile);
+            mediaScanIntent.setData(contentUri);
+            context.sendBroadcast(mediaScanIntent);
+
+        } else {
+            context.sendBroadcast(new Intent(
+                    Intent.ACTION_MEDIA_MOUNTED,
+                    Uri.parse("file://"
+                            + Environment.getExternalStorageDirectory())));
+        }
+        Toast.makeText(context,"已保存到相册",Toast.LENGTH_SHORT).show();
     }
 }
