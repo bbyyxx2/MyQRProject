@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,56 +65,45 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
     @Override
     protected void initListener() {
 
-        binding.tvIl.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.etContent.setText("");
-            }
-        });
+        binding.tvIl.setEndIconOnClickListener(v -> binding.etContent.setText(""));
 
-        binding.qrBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())){
-                    String content = binding.etContent.getText().toString();
-                    int type = HmsScan.QRCODE_SCAN_TYPE;
-                    int width = 300;
-                    int height = 300;
-                    HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
-                    try {
-                        // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
-                        Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
-                        binding.qrIv.setImageBitmap(qrBitmap);
-                    } catch (WriterException e) {
-                        Log.w("buildBitmap", e);
-                    }
+        binding.qrBt.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
+                String content = binding.etContent.getText().toString();
+                int type = HmsScan.QRCODE_SCAN_TYPE;
+                int width = 300;
+                int height = 300;
+                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
+                try {
+                    // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
+                    Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
+                    binding.qrIv.setImageBitmap(qrBitmap);
+                } catch (WriterException e) {
+                    Log.w("buildBitmap", e);
                 }
             }
         });
 
-        binding.etContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        binding.etContent.setOnEditorActionListener((v, actionId, event) -> {
 
-                if (actionId == EditorInfo.IME_ACTION_DONE){
-                    // 进行完成操作
-                    binding.qrBt.performClick();
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    return true;
-                }
-                return false;
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // 进行完成操作
+                binding.qrBt.performClick();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                return true;
             }
+            return false;
         });
 
         binding.qrIv.setOnLongClickListener(v -> {
-            if (((ImageView)v).getDrawable() == null){
+            if (((ImageView) v).getDrawable() == null) {
                 return false;
             }
-            if (((BitmapDrawable) ((ImageView)v).getDrawable()) == null){
+            if (((BitmapDrawable) ((ImageView) v).getDrawable()) == null) {
                 return false;
             }
-            if (((BitmapDrawable) ((ImageView)v).getDrawable()).getBitmap() == null){
+            if (((BitmapDrawable) ((ImageView) v).getDrawable()).getBitmap() == null) {
                 return false;
             }
 
@@ -122,23 +112,13 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
                     .request(new RequestCallback() {
                         @Override
                         public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
-                            if (allGranted){
+                            if (allGranted) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                 builder.setTitle("提示");
                                 builder.setMessage("是否保存图片");
                                 builder.setCancelable(true);
-                                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        saveImage(binding.qrIv);
-                                    }
-                                });
-                                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                                builder.setPositiveButton("是", (dialog, which) -> saveImage(binding.qrIv));
+                                builder.setNegativeButton("否", (dialog, which) -> dialog.dismiss());
                                 builder.create().show();
                             } else {
                                 Toast.makeText(context, deniedList + "权限被拒绝", Toast.LENGTH_LONG).show();
@@ -148,12 +128,55 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             return true;
         });
 
+        binding.redSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+        binding.greenSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+        binding.blueSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
-    private void saveImage(ImageView imageView){
+    // 定义SeekBar控件的监听器
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            // 获取SeekBar控件的当前值
+            int redValue = binding.redSeekbar.getProgress();
+            int greenValue = binding.greenSeekbar.getProgress();
+            int blueValue = binding.blueSeekbar.getProgress();
+
+            // 将RGB颜色值合并成一个颜色值
+            int color = Color.rgb(redValue, greenValue, blueValue);
+
+            if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
+                String content = binding.etContent.getText().toString();
+                int type = HmsScan.QRCODE_SCAN_TYPE;
+                int width = 300;
+                int height = 300;
+                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(color).setBitmapMargin(3).create();
+                try {
+                    // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
+                    Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
+                    binding.qrIv.setImageBitmap(qrBitmap);
+                } catch (WriterException e) {
+                    Log.w("buildBitmap", e);
+                }
+            }
+
+//            // 设置显示颜色的View控件的背景颜色
+//            colorView.setBackgroundColor(color);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+    };
+
+    private void saveImage(ImageView imageView) {
         BitmapDrawable bmpDrawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bitmap = bmpDrawable.getBitmap();
-        if (bitmap==null){
+        if (bitmap == null) {
             return;
         }
         MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "HaiGouShareCode", "");
@@ -173,6 +196,6 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
                     Uri.parse("file://"
                             + Environment.getExternalStorageDirectory())));
         }
-        Toast.makeText(context,"已保存到相册",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "已保存到相册", Toast.LENGTH_SHORT).show();
     }
 }

@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             adapter = new MainPagerAdapter(this);
         }
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setUserInputEnabled(false);
 
         binding.navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")

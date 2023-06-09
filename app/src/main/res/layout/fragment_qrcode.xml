@@ -6,17 +6,95 @@
     android:layout_height="match_parent"
     tools:context=".ui.qrcode.QrcodeFragment">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/qr_card"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar_ll">
+
+        <ImageView
+            android:id="@+id/qr_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/seekbar_ll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qr_card"
+        app:layout_constraintBottom_toTopOf="@+id/tv_il"
+        >
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/red_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:progress="0"
+            android:thumbTint="@color/md_theme_light_tertiary"
+            android:progressTint="@color/md_theme_light_tertiary"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qr_card"/>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/green_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:progress="0"
+            android:thumbTint="@color/md_theme_light_tertiary"
+            android:progressTint="@color/md_theme_light_tertiary"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/red_seekbar"/>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/blue_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:progress="0"
+            android:thumbTint="@color/md_theme_light_tertiary"
+            android:progressTint="@color/md_theme_light_tertiary"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/green_seekbar"/>
+    </LinearLayout>
+
+
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tv_il"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         app:endIconMode="clear_text"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_ll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/qr_bt">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_content"
@@ -26,25 +104,11 @@
             android:textSize="15sp"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/qr_card"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_il"
-        app:layout_constraintBottom_toTopOf="@+id/qr_bt">
-
-        <ImageView
-            android:id="@+id/qr_iv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/qr_bt"
