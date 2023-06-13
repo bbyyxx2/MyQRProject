@@ -3,6 +3,7 @@ package com.bbyyxx2.myqrproject.ui.qrcode;
 import static com.huawei.hms.framework.common.ContextCompat.getSystemService;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,9 +36,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbyyxx2.myqrproject.R;
+import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
+import com.bbyyxx2.myqrproject.ui.base.Constant;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.hmsscankit.WriterException;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
@@ -59,7 +63,20 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
     @Override
     protected void initView() {
-
+        if (MMKVUtil.getInt(Constant.RED_SEEK_BAR, -1) != -1) {
+            binding.redSeekbar.setProgress(MMKVUtil.getInt(Constant.RED_SEEK_BAR));
+        }
+        if (MMKVUtil.getInt(Constant.GREEN_SEEK_BAR, -1) != -1) {
+            binding.greenSeekbar.setProgress(MMKVUtil.getInt(Constant.GREEN_SEEK_BAR));
+        }
+        if (MMKVUtil.getInt(Constant.BLUE_SEEK_BAR, -1) != -1) {
+            binding.blueSeekbar.setProgress(MMKVUtil.getInt(Constant.BLUE_SEEK_BAR));
+        }
+        String lastContent = MMKVUtil.getString(Constant.LAST_QR_CONTENT, "");
+        if (!TextUtils.isEmpty(lastContent)){
+            binding.etContent.setText(lastContent);
+            createQr(lastContent);
+        }
     }
 
     @Override
@@ -70,17 +87,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         binding.qrBt.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
                 String content = binding.etContent.getText().toString();
-                int type = HmsScan.QRCODE_SCAN_TYPE;
-                int width = 300;
-                int height = 300;
-                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
-                try {
-                    // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
-                    Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
-                    binding.qrIv.setImageBitmap(qrBitmap);
-                } catch (WriterException e) {
-                    Log.w("buildBitmap", e);
-                }
+                createQr(content);
             }
         });
 
@@ -135,29 +142,26 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
     // 定义SeekBar控件的监听器
     private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @SuppressLint("NonConstantResourceId")
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            // 获取SeekBar控件的当前值
-            int redValue = binding.redSeekbar.getProgress();
-            int greenValue = binding.greenSeekbar.getProgress();
-            int blueValue = binding.blueSeekbar.getProgress();
 
-            // 将RGB颜色值合并成一个颜色值
-            int color = Color.rgb(redValue, greenValue, blueValue);
+            switch (seekBar.getId()) {
+                case R.id.red_seekbar:
+                    MMKVUtil.put(Constant.RED_SEEK_BAR, binding.redSeekbar.getProgress());
+                    break;
+                case R.id.green_seekbar:
+                    MMKVUtil.put(Constant.GREEN_SEEK_BAR, binding.greenSeekbar.getProgress());
+                    break;
+                case R.id.blue_seekbar:
+                    MMKVUtil.put(Constant.BLUE_SEEK_BAR, binding.blueSeekbar.getProgress());
+                    break;
+            }
 
             if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
+
                 String content = binding.etContent.getText().toString();
-                int type = HmsScan.QRCODE_SCAN_TYPE;
-                int width = 300;
-                int height = 300;
-                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(color).setBitmapMargin(3).create();
-                try {
-                    // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
-                    Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
-                    binding.qrIv.setImageBitmap(qrBitmap);
-                } catch (WriterException e) {
-                    Log.w("buildBitmap", e);
-                }
+                createQr(content);
             }
 
 //            // 设置显示颜色的View控件的背景颜色
@@ -172,6 +176,32 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     };
+
+    private void createQr(String content) {
+        int type = HmsScan.QRCODE_SCAN_TYPE;
+        int width = 300;
+        int height = 300;
+        HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(getColor()).setBitmapMargin(3).create();
+        try {
+            // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
+            Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
+            binding.qrIv.setImageBitmap(qrBitmap);
+            MMKVUtil.put(Constant.LAST_QR_CONTENT, content);
+        } catch (WriterException e) {
+            Log.w("buildBitmap", e);
+        }
+    }
+
+    private int getColor() {
+        // 获取SeekBar控件的当前值
+        int redValue = binding.redSeekbar.getProgress();
+        int greenValue = binding.greenSeekbar.getProgress();
+        int blueValue = binding.blueSeekbar.getProgress();
+
+        // 将RGB颜色值合并成一个颜色值
+
+        return Color.rgb(redValue, greenValue, blueValue);
+    }
 
     private void saveImage(ImageView imageView) {
         BitmapDrawable bmpDrawable = (BitmapDrawable) imageView.getDrawable();
