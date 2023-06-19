@@ -55,14 +55,8 @@ import java.util.Objects;
 
 public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
 
-
     @Override
-    protected FragmentQrcodeBinding inflateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        return FragmentQrcodeBinding.inflate(inflater, container, false);
-    }
-
-    @Override
-    protected void initView() {
+    public void initView() {
         if (MMKVUtil.getInt(Constant.RED_SEEK_BAR, -1) != -1) {
             binding.redSeekbar.setProgress(MMKVUtil.getInt(Constant.RED_SEEK_BAR));
         }
@@ -80,7 +74,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
 
         binding.tvIl.setEndIconOnClickListener(v -> binding.etContent.setText(""));
 

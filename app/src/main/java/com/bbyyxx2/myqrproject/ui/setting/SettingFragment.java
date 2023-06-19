@@ -32,12 +32,12 @@ import java.util.Objects;
 public class SettingFragment extends BaseFragment<FragmentSettingBinding, SettingViewModel> {
 
     @Override
-    protected void initView() {
+    public void initView() {
         checkUpdate();
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         //声明观察
         viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -54,11 +54,6 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
                 checkUpdate();
             }
         });
-    }
-
-    @Override
-    protected FragmentSettingBinding inflateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        return FragmentSettingBinding.inflate(inflater, container, false);
     }
 
     private void checkUpdate(){

@@ -32,12 +32,7 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
     };
 
     @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected void initListener() {
+    public void initListener() {
         binding.scanBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,11 +47,6 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
                 binding.content.setText(s);
             }
         });
-    }
-
-    @Override
-    protected FragmentScanBinding inflateViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        return FragmentScanBinding.inflate(inflater, container, false);
     }
 
     @Override
