@@ -10,10 +10,9 @@ public class SettingViewModel extends ViewModel {
 
     public SettingViewModel() {
         versionName = new MutableLiveData<>();
-        versionName.setValue("This is notifications fragment");
     }
 
-    public LiveData<String> getText() {
+    public LiveData<String> getVersionName() {
         return versionName;
     }
 

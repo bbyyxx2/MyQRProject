@@ -18,8 +18,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bbyyxx2.myqrproject.MainActivity;
+import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
+import com.bbyyxx2.myqrproject.ui.base.Constant;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 
@@ -30,6 +32,15 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
+
+    @Override
+    public void initView() {
+        super.initView();
+
+        if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
+            binding.content.setText(MMKVUtil.getString(Constant.LAST_SCAN_CONTENT, ""));
+        }
+    }
 
     @Override
     public void initListener() {
@@ -56,6 +67,10 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
         Log.e("test111","value=" + obj.originalValue);
         if (obj != null) {
             viewModel.setText(obj.originalValue);
+
+            if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
+                MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
 
 import com.bbyyxx2.dandelion.OkhttpUtil;
@@ -24,36 +25,68 @@ import com.bbyyxx2.myqrproject.Util.CommentUtil;
 import com.bbyyxx2.myqrproject.Util.NetWorkUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentSettingBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
+import com.bbyyxx2.myqrproject.ui.base.Constant;
+import com.bbyyxx2.myqrproject.ui.setting.adapter.SettingAdapter;
+import com.bbyyxx2.myqrproject.ui.setting.model.SetData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SettingFragment extends BaseFragment<FragmentSettingBinding, SettingViewModel> {
 
+    private SettingAdapter adapter;
+    private List<SetData> setDataList = new ArrayList<>();
+
     @Override
     public void initView() {
+        viewModel.setVersionName("V" + CommentUtil.getVersionName(context));
         checkUpdate();
+
+        setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
+        setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_SCAN_SWITCH, 1));
+        setDataList.add(new SetData("version", "V" + CommentUtil.getVersionName(context), null, "", 3));
+
+        adapter = new SettingAdapter(context, setDataList);
+        binding.settingsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        binding.settingsRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void initListener() {
+        adapter.setListener(new SettingAdapter.Listener() {
+            @Override
+            public void setOnClick(View v, int pos) {
+                switch (setDataList.get(pos).getLabel()){
+                    case "version":
+                        checkUpdate();
+                        break;
+                }
+            }
+
+            @Override
+            public void setOnLongClick(View v, int pos) {
+
+            }
+        });
         //声明观察
-        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                binding.textNotifications.setText(s);
-            }
-        });
+//        viewModel.getVersionName().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                binding.textNotifications.setText(s);
+//            }
+//        });
         //获取版本号
-        viewModel.setVersionName("V" + CommentUtil.getVersionName(context));
+
         //点击监听
-        binding.textNotifications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkUpdate();
-            }
-        });
+//        binding.textNotifications.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkUpdate();
+//            }
+//        });
     }
 
     private void checkUpdate(){

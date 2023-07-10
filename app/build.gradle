@@ -9,8 +9,8 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 4
-        versionName "1.3"
+        versionCode 5
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,6 +27,18 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+
+    android.applicationVariants.all{
+        variant ->
+            variant.outputs.all{
+//                if (variant.buildType.name == "debug"){
+//                    outputFileName = "ECSERV_${myTime()}.apk"
+//                } else
+                if (variant.buildType.name == "release"){
+                    outputFileName = "扫码小生V${variant.versionName}.apk"
+                }
+            }
     }
 }
 
@@ -55,5 +67,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     //权限请求permissionx
     implementation 'com.guolindev.permissionx:permissionx:1.7.0'
+    //圆形iv
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
 apply plugin: 'com.huawei.agconnect'

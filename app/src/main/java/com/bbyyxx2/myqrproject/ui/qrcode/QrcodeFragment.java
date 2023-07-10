@@ -67,7 +67,8 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             binding.blueSeekbar.setProgress(MMKVUtil.getInt(Constant.BLUE_SEEK_BAR));
         }
         String lastContent = MMKVUtil.getString(Constant.LAST_QR_CONTENT, "");
-        if (!TextUtils.isEmpty(lastContent)){
+        boolean switchLastQr = MMKVUtil.getBoolean(Constant.LAST_QR_CONTENT_SWITCH, false);
+        if (switchLastQr && !TextUtils.isEmpty(lastContent)){
             binding.etContent.setText(lastContent);
             createQr(lastContent);
         }
@@ -180,7 +181,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
             Bitmap qrBitmap = ScanUtil.buildBitmap(content, type, width, height, options);
             binding.qrIv.setImageBitmap(qrBitmap);
-            MMKVUtil.put(Constant.LAST_QR_CONTENT, content);
+
+            if (MMKVUtil.getBoolean(Constant.LAST_QR_CONTENT_SWITCH, false)){
+                MMKVUtil.put(Constant.LAST_QR_CONTENT, content);
+            }
         } catch (WriterException e) {
             Log.w("buildBitmap", e);
         }

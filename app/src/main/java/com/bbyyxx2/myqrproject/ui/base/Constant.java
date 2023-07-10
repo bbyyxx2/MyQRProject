@@ -23,7 +23,17 @@ public class Constant {
     public static final String LAST_QR_CONTENT = "lastQrContent";
 
     /**
+     * 上次扫码内容
+     */
+    public static final String LAST_SCAN_CONTENT = "lastScanContent";
+
+    /**
      * 上次生码内容是否保存key，value应为boolean
      */
     public static final String LAST_QR_CONTENT_SWITCH = "lastQrContentSwitch";
+
+    /**
+     * 上次扫码内容是否保存key，value应为boolean
+     */
+    public static final String LAST_SCAN_SWITCH = "lastQrScanSwitch";
 }
