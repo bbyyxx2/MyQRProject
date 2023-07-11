@@ -159,8 +159,13 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString()))
-                    binding.redSeekbar.setProgress(Integer.parseInt(s.toString()));
+                if (!TextUtils.isEmpty(s.toString())){
+                    int progress = Integer.parseInt(s.toString());
+                    binding.redSeekbar.setOnSeekBarChangeListener(null);
+                    binding.redSeekbar.setProgress(progress);
+                    refreshSeekbar(binding.redSeekbar.getId(), progress, true);
+                    binding.redSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                }
             }
         });
 
@@ -177,8 +182,13 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString()))
-                    binding.greenSeekbar.setProgress(Integer.parseInt(s.toString()));
+                if (!TextUtils.isEmpty(s.toString())){
+                    int progress = Integer.parseInt(s.toString());
+                    binding.greenSeekbar.setOnSeekBarChangeListener(null);
+                    binding.greenSeekbar.setProgress(progress);
+                    refreshSeekbar(binding.greenSeekbar.getId(), progress, true);
+                    binding.greenSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                }
             }
         });
 
@@ -195,42 +205,24 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString()))
-                    binding.blueSeekbar.setProgress(Integer.parseInt(s.toString()));
+                if (!TextUtils.isEmpty(s.toString())){
+                    int progress = Integer.parseInt(s.toString());
+                    binding.blueSeekbar.setOnSeekBarChangeListener(null);
+                    binding.blueSeekbar.setProgress(progress);
+                    refreshSeekbar(binding.blueSeekbar.getId(), progress, true);
+                    binding.blueSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                }
             }
         });
 
     }
 
     // 定义SeekBar控件的监听器
-    private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+    private final SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            switch (seekBar.getId()) {
-                case R.id.red_seekbar:
-                    MMKVUtil.put(Constant.RED_SEEK_BAR, progress);
-                    binding.redEditText.setText(String.valueOf(progress));
-                    break;
-                case R.id.green_seekbar:
-                    MMKVUtil.put(Constant.GREEN_SEEK_BAR, progress);
-                    binding.greenEditText.setText(String.valueOf(progress));
-                    break;
-                case R.id.blue_seekbar:
-                    MMKVUtil.put(Constant.BLUE_SEEK_BAR, progress);
-                    binding.blueEditText.setText(String.valueOf(progress));
-                    break;
-            }
-
-            if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
-
-                String content = binding.etContent.getText().toString();
-                createQr(content);
-            }
-
-//            // 设置显示颜色的View控件的背景颜色
-//            colorView.setBackgroundColor(color);
+            refreshSeekbar(seekBar.getId(), progress, false);
         }
 
         @Override
@@ -241,6 +233,35 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     };
+
+    private void refreshSeekbar(int id, int progress, boolean isEdit){
+        switch (id) {
+            case R.id.red_seekbar:
+                MMKVUtil.put(Constant.RED_SEEK_BAR, progress);
+                if (!isEdit)
+                    binding.redEditText.setText(String.valueOf(progress));
+                break;
+            case R.id.green_seekbar:
+                MMKVUtil.put(Constant.GREEN_SEEK_BAR, progress);
+                if (!isEdit)
+                    binding.greenEditText.setText(String.valueOf(progress));
+                break;
+            case R.id.blue_seekbar:
+                MMKVUtil.put(Constant.BLUE_SEEK_BAR, progress);
+                if (!isEdit)
+                    binding.blueEditText.setText(String.valueOf(progress));
+                break;
+        }
+
+        if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
+
+            String content = binding.etContent.getText().toString();
+            createQr(content);
+        }
+
+//            // 设置显示颜色的View控件的背景颜色
+//            colorView.setBackgroundColor(color);
+    }
 
     private void createQr(String content) {
         int type = HmsScan.QRCODE_SCAN_TYPE;
