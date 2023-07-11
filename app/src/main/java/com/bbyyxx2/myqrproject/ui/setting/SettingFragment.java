@@ -45,8 +45,8 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
         viewModel.setVersionName("V" + CommentUtil.getVersionName(context));
         checkUpdate();
 
-        setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
-        setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_SCAN_SWITCH, 1));
+        setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_SCAN_SWITCH, 1));
+        setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
         setDataList.add(new SetData("version", "V" + CommentUtil.getVersionName(context), null, "", 3));
 
         adapter = new SettingAdapter(context, setDataList);

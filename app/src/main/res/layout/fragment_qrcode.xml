@@ -34,50 +34,132 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_il"
         >
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/red_seekbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="255"
-            android:progress="0"
-            android:thumbTint="@color/md_theme_light_tertiary"
-            android:progressTint="@color/md_theme_light_tertiary"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qr_card"/>
+            android:layout_marginEnd="50dp">
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/green_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="255"
-            android:progress="0"
-            android:thumbTint="@color/md_theme_light_tertiary"
-            android:progressTint="@color/md_theme_light_tertiary"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/red_seekbar"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/blue_seekbar"
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/red_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="R"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:textSize="11sp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/red_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:max="255"
+                android:progress="0"
+                android:thumbTint="@color/md_theme_light_tertiary"
+                android:progressTint="@color/md_theme_light_tertiary" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="255"
-            android:progress="0"
-            android:thumbTint="@color/md_theme_light_tertiary"
-            android:progressTint="@color/md_theme_light_tertiary"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/green_seekbar"/>
+            android:layout_marginEnd="50dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/green_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="G"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:textSize="11sp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/green_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:max="255"
+                android:progress="0"
+                android:thumbTint="@color/md_theme_light_tertiary"
+                android:progressTint="@color/md_theme_light_tertiary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/red_seekbar"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/blue_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="B"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:textSize="11sp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/blue_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:max="255"
+                android:progress="0"
+                android:thumbTint="@color/md_theme_light_tertiary"
+                android:progressTint="@color/md_theme_light_tertiary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/green_seekbar"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 
@@ -115,7 +197,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="生成二维码"
-        android:layout_marginBottom="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_il"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
