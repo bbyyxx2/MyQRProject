@@ -161,10 +161,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-                    binding.redSeekbar.setOnSeekBarChangeListener(null);
+//                    binding.redSeekbar.setOnSeekBarChangeListener(null);
                     binding.redSeekbar.setProgress(progress);
                     refreshSeekbar(binding.redSeekbar.getId(), progress, true);
-                    binding.redSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+//                    binding.redSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
                 }
             }
         });
@@ -184,10 +184,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-                    binding.greenSeekbar.setOnSeekBarChangeListener(null);
+//                    binding.greenSeekbar.setOnSeekBarChangeListener(null);
                     binding.greenSeekbar.setProgress(progress);
                     refreshSeekbar(binding.greenSeekbar.getId(), progress, true);
-                    binding.greenSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+//                    binding.greenSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
                 }
             }
         });
@@ -207,10 +207,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-                    binding.blueSeekbar.setOnSeekBarChangeListener(null);
+//                    binding.blueSeekbar.setOnSeekBarChangeListener(null);
                     binding.blueSeekbar.setProgress(progress);
                     refreshSeekbar(binding.blueSeekbar.getId(), progress, true);
-                    binding.blueSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+//                    binding.blueSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
                 }
             }
         });
@@ -222,7 +222,9 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            refreshSeekbar(seekBar.getId(), progress, false);
+            if (fromUser) {
+                refreshSeekbar(seekBar.getId(), progress, false);
+            }
         }
 
         @Override
