@@ -100,30 +100,18 @@ public class SettingAdapter extends RecyclerView.Adapter {
 
         } else if (holder instanceof SettingViewHolder2){
             ((SettingViewHolder2) holder).binding.setName.setText(setDataList.get(position).getTitle());
-
-            ((SettingViewHolder2) holder).binding.box.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    context.startActivity(new Intent(context, setDataList.get(position).getToClass()));
-                    if (listener != null){
-                        listener.setOnClick(v,position);
-                    }
-                }
-            });
         } else if (holder instanceof SettingViewHolder3){
-
             ((SettingViewHolder3) holder).binding.setName.setText(setDataList.get(position).getTitle());
-
-            ((SettingViewHolder3) holder).binding.box.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-                        listener.setOnClick(v,position);
-                    }
-                }
-            });
-
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null){
+                    listener.setOnClick(v,position);
+                }
+            }
+        });
     }
 
     @Override

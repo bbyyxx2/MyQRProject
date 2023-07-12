@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.bbyyxx2.dandelion.OkhttpUtil;
 import com.bbyyxx2.dandelion.model.UpdateModel;
+import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.CommentUtil;
 import com.bbyyxx2.myqrproject.Util.NetWorkUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentSettingBinding;
@@ -28,6 +30,7 @@ import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.bbyyxx2.myqrproject.ui.base.Constant;
 import com.bbyyxx2.myqrproject.ui.setting.adapter.SettingAdapter;
 import com.bbyyxx2.myqrproject.ui.setting.model.SetData;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,7 +50,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
         setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_SCAN_SWITCH, 1));
         setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
-        setDataList.add(new SetData("version", "V" + CommentUtil.getVersionName(context), null, "", 3));
+        setDataList.add(new SetData("version", "软件版本：V" + CommentUtil.getVersionName(context), null, "", 3));
 
         adapter = new SettingAdapter(context, setDataList);
         binding.settingsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -60,6 +63,12 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
             @Override
             public void setOnClick(View v, int pos) {
                 switch (setDataList.get(pos).getLabel()){
+                    case "scan":
+                    case "qr":
+                        SwitchMaterial aSwitch = v.findViewById(R.id.set_switch);
+                        if (aSwitch != null)
+                            aSwitch.setChecked(!aSwitch.isChecked());
+                        break;
                     case "version":
                         checkUpdate();
                         break;

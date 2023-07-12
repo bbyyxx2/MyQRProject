@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -157,14 +158,17 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-//                    binding.redSeekbar.setOnSeekBarChangeListener(null);
-                    binding.redSeekbar.setProgress(progress);
-                    refreshSeekbar(binding.redSeekbar.getId(), progress, true);
-//                    binding.redSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                    if (progress > 255){
+                        binding.redEditText.setText("255");
+                        binding.redSeekbar.setProgress(255);
+                    } else {
+                        binding.redSeekbar.setProgress(progress);
+                    }
                 }
             }
         });
@@ -184,10 +188,12 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-//                    binding.greenSeekbar.setOnSeekBarChangeListener(null);
-                    binding.greenSeekbar.setProgress(progress);
-                    refreshSeekbar(binding.greenSeekbar.getId(), progress, true);
-//                    binding.greenSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                    if (progress > 255){
+                        binding.greenEditText.setText("255");
+                        binding.greenSeekbar.setProgress(255);
+                    } else {
+                        binding.greenSeekbar.setProgress(progress);
+                    }
                 }
             }
         });
@@ -207,10 +213,12 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())){
                     int progress = Integer.parseInt(s.toString());
-//                    binding.blueSeekbar.setOnSeekBarChangeListener(null);
-                    binding.blueSeekbar.setProgress(progress);
-                    refreshSeekbar(binding.blueSeekbar.getId(), progress, true);
-//                    binding.blueSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+                    if (progress > 255){
+                        binding.blueEditText.setText("255");
+                        binding.blueSeekbar.setProgress(255);
+                    } else {
+                        binding.blueSeekbar.setProgress(progress);
+                    }
                 }
             }
         });
@@ -222,9 +230,32 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (fromUser) {
-                refreshSeekbar(seekBar.getId(), progress, false);
+            switch (seekBar.getId()) {
+                case R.id.red_seekbar:
+                    MMKVUtil.put(Constant.RED_SEEK_BAR, progress);
+                    if (fromUser)
+                        binding.redEditText.setText(String.valueOf(progress));
+                    break;
+                case R.id.green_seekbar:
+                    MMKVUtil.put(Constant.GREEN_SEEK_BAR, progress);
+                    if (fromUser)
+                        binding.greenEditText.setText(String.valueOf(progress));
+                    break;
+                case R.id.blue_seekbar:
+                    MMKVUtil.put(Constant.BLUE_SEEK_BAR, progress);
+                    if (fromUser)
+                        binding.blueEditText.setText(String.valueOf(progress));
+                    break;
             }
+
+            if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
+
+                String content = binding.etContent.getText().toString();
+                createQr(content);
+            }
+
+//            // 设置显示颜色的View控件的背景颜色
+//            colorView.setBackgroundColor(color);
         }
 
         @Override
@@ -235,35 +266,6 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     };
-
-    private void refreshSeekbar(int id, int progress, boolean isEdit){
-        switch (id) {
-            case R.id.red_seekbar:
-                MMKVUtil.put(Constant.RED_SEEK_BAR, progress);
-                if (!isEdit)
-                    binding.redEditText.setText(String.valueOf(progress));
-                break;
-            case R.id.green_seekbar:
-                MMKVUtil.put(Constant.GREEN_SEEK_BAR, progress);
-                if (!isEdit)
-                    binding.greenEditText.setText(String.valueOf(progress));
-                break;
-            case R.id.blue_seekbar:
-                MMKVUtil.put(Constant.BLUE_SEEK_BAR, progress);
-                if (!isEdit)
-                    binding.blueEditText.setText(String.valueOf(progress));
-                break;
-        }
-
-        if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
-
-            String content = binding.etContent.getText().toString();
-            createQr(content);
-        }
-
-//            // 设置显示颜色的View控件的背景颜色
-//            colorView.setBackgroundColor(color);
-    }
 
     private void createQr(String content) {
         int type = HmsScan.QRCODE_SCAN_TYPE;
