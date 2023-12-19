@@ -1,6 +1,9 @@
 <resources>
+    <!--主要文字-->
     <string name="app_name">扫码小生</string>
     <string name="title_scan">扫  码</string>
     <string name="title_qrcode">生  码</string>
     <string name="title_setting">设  置</string>
+
+
 </resources>

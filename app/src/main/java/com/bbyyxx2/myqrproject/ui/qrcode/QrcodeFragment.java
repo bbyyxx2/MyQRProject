@@ -1,43 +1,33 @@
 package com.bbyyxx2.myqrproject.ui.qrcode;
 
-import static com.huawei.hms.framework.common.ContextCompat.getSystemService;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
@@ -57,6 +47,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
+
+    private PopupWindow popupDialog;
 
     @Override
     public void initView() {
@@ -111,6 +103,57 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             return false;
         });
 
+        binding.qrIv.setOnClickListener(v -> {
+            try { //容错
+                if (popupDialog != null) {
+                    popupDialog.dismiss();
+                }
+                View popView = getLayoutInflater().inflate(R.layout.dialog_image, null);
+
+
+                //glide 加载图片
+                ImageView iv_dialog_image = (ImageView) popView.findViewById(R.id.iv_dialog_image);
+                //bt可要可不要，现在很少有app点开图片还有回退键，都是直接点击图片就消失
+                iv_dialog_image.setOnClickListener(v1 -> {popupDialog.dismiss();});
+
+                BitmapDrawable bmpDrawable = (BitmapDrawable) binding.qrIv.getDrawable();
+                Bitmap bitmap = bmpDrawable.getBitmap();
+                if (bitmap == null) {
+                    return;
+                }
+                iv_dialog_image.setImageBitmap(bitmap);
+
+                //Button bt =popView.findViewById(R.id.bt_dialog_image);
+                //bt.setOnClickListener(v -> {popupDialog.dismiss();});
+//            RequestOptions requestOptions = new RequestOptions();
+//            requestOptions.placeholder(R.mipmap.image_load);
+
+                //这里有两个坑，首先asBitmap在不同的版本位置不同，可能在with后面也可能在load才能点出来。
+                //不能使用glide的 .placeholder()来设置占位图片，会导致自定义中获取到的图片大小永远是占位图大小，导致iv的初始大小缩放出现严重问题，导致图片显示不完全，iv大小异常等问题
+//                Glide.with(mContext)
+//                        .asBitmap()
+//                        .load(url)
+////                    .apply(requestOptions)
+//                        .into(iv_dialog_image);
+
+                popupDialog = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+                //popupDialog.setBackgroundDrawable(getDrawable(R.drawable.dialog_background));
+                popupDialog.setOutsideTouchable(true);//外部点击消失
+                //popView.setFocusableInTouchMode(true);
+                popupDialog.setFocusable(true); // 这个很重要
+
+                if (popupDialog != null && !popupDialog.isShowing()) {
+                    popupDialog.setAnimationStyle(R.style.dialog_anim);
+                    popupDialog.showAtLocation(getActivity().getWindow().getDecorView(),
+                            Gravity.CENTER, 0, 0);
+                    popupDialog.setFocusable(true);
+                }
+            } catch (Exception e) {
+                //showAtLocation
+            }
+        });
+        // 长按保存图片
         binding.qrIv.setOnLongClickListener(v -> {
             if (((ImageView) v).getDrawable() == null) {
                 return false;

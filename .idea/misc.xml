@@ -1,32 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14270833333333333" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/bottom_ic_qrcode.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/bottom_ic_scan.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/bottom_ic_setting.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/bottom_icon_scan.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_icon_qrcode.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_icon_scan.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_icon_setting.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14270833333333333" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_scan_blue.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/drawable/ic_setting_grey.xml" value="0.13177083333333334" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/layout/activity_main.xml" value="0.16" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/layout/fragment_home.xml" value="0.264" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14270833333333333" />
-        <entry key="..\:/MyStudy/MyQRProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14270833333333333" />
-      </map>
-    </option>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK" />
 </project>

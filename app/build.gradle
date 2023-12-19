@@ -9,15 +9,19 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,6 +58,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     //链接更新类
     implementation project(path: ':dandelion')
+    implementation 'androidx.preference:preference:1.2.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
