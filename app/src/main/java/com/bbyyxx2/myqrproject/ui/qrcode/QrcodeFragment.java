@@ -30,7 +30,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bbyyxx2.myqrproject.R;
+import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
+import com.bbyyxx2.myqrproject.Util.T;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
@@ -324,7 +326,8 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
                 MMKVUtil.put(Constant.LAST_QR_CONTENT, content);
             }
         } catch (WriterException e) {
-            Log.w("buildBitmap", e);
+            L.w("buildBitmap", e);
+            T.showMsg("生成二维码异常：" + e.getMessage());
         }
     }
 
@@ -345,23 +348,22 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         if (bitmap == null) {
             return;
         }
-        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "HaiGouShareCode", "");
+        String fileName = "QR" + TimeUtil.getFormatCurrTime() + ".png";
+        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, fileName, "");
         //如果是4.4及以上版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            String fileName = "QR" + TimeUtil.getFormatCurrTime() + ".png";
             File mPhotoFile = new File(fileName);
             Intent mediaScanIntent = new Intent(
                     Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(mPhotoFile);
             mediaScanIntent.setData(contentUri);
             context.sendBroadcast(mediaScanIntent);
-
         } else {
             context.sendBroadcast(new Intent(
                     Intent.ACTION_MEDIA_MOUNTED,
                     Uri.parse("file://"
                             + Environment.getExternalStorageDirectory())));
         }
-        Toast.makeText(context, "已保存到相册", Toast.LENGTH_SHORT).show();
+        T.showMsg("已保存到相册");
     }
 }

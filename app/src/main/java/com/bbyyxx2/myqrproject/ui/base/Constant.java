@@ -36,4 +36,9 @@ public class Constant {
      * 上次扫码内容是否保存key，value应为boolean
      */
     public static final String LAST_SCAN_SWITCH = "lastQrScanSwitch";
+
+    /**
+     * tts开关，value应为boolean
+     */
+    public static final String TTS_SWITCH = "TTSSwitch";
 }

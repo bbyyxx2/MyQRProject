@@ -25,6 +25,7 @@ import com.bbyyxx2.dandelion.model.UpdateModel;
 import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.CommentUtil;
 import com.bbyyxx2.myqrproject.Util.NetWorkUtil;
+import com.bbyyxx2.myqrproject.Util.T;
 import com.bbyyxx2.myqrproject.databinding.FragmentSettingBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.bbyyxx2.myqrproject.ui.base.Constant;
@@ -50,6 +51,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
         setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_SCAN_SWITCH, 1));
         setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
+        setDataList.add(new SetData("tts", "文字转语音功能", null, Constant.TTS_SWITCH, 1));
         setDataList.add(new SetData("version", "软件版本：V" + CommentUtil.getVersionName(context), null, "", 3));
 
         adapter = new SettingAdapter(context, setDataList);
@@ -65,6 +67,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
                 switch (setDataList.get(pos).getLabel()){
                     case "scan":
                     case "qr":
+                    case "tts":
                         SwitchMaterial aSwitch = v.findViewById(R.id.set_switch);
                         if (aSwitch != null)
                             aSwitch.setChecked(!aSwitch.isChecked());
@@ -80,22 +83,6 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
             }
         });
-        //声明观察
-//        viewModel.getVersionName().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                binding.textNotifications.setText(s);
-//            }
-//        });
-        //获取版本号
-
-        //点击监听
-//        binding.textNotifications.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkUpdate();
-//            }
-//        });
     }
 
     private void checkUpdate(){
@@ -150,6 +137,8 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
                         }
                     });
+        } else {
+            T.showMsg("网络异常，请检查网络后重试！");
         }
     }
 

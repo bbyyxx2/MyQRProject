@@ -52,6 +52,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+//    testImplementation 'junit:junit:4.+'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     //permissionx中包含了，冲突
 //    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
@@ -59,10 +62,7 @@ dependencies {
     //链接更新类
     implementation project(path: ':dandelion')
     implementation 'androidx.preference:preference:1.2.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-    implementation 'com.huawei.hms:scanplus:2.10.0.301'
+    implementation 'com.huawei.hms:scanplus:2.12.0.301'
 
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0' // ViewPager 2 需要使用 RecycleView 的 adapter
@@ -75,4 +75,3 @@ dependencies {
     //圆形iv
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
-apply plugin: 'com.huawei.agconnect'
