@@ -13,9 +13,12 @@ import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.ScanRecord;
 import com.bbyyxx2.myqrproject.MainActivity;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
+import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.bbyyxx2.myqrproject.ui.base.Constant;
+import com.bbyyxx2.myqrproject.ui.history.HistoryActivity;
+import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 
@@ -52,6 +55,12 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
                 binding.content.setText(s);
             }
         });
+
+        binding.history.setOnClickListener(v -> {
+            Intent intent = new Intent(context, HistoryActivity.class);
+            intent.putExtra("type", HistoryConstant.SCAN_RECORD);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -64,7 +73,10 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
 
             if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
                 MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
-                AppDatabase.getInstance(context).scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue, System.currentTimeMillis()));
+                ThreadUtil.runInNewThread(() -> {
+                    AppDatabase.getInstance(context).scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue, System.currentTimeMillis()));
+                    return null;
+                });
             }
         }
     }

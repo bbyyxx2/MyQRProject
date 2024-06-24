@@ -29,14 +29,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bbyyxx2.database.database.AppDatabase;
+import com.bbyyxx2.database.entities.QRRecord;
+import com.bbyyxx2.database.entities.ScanRecord;
 import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.bbyyxx2.myqrproject.Util.T;
+import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentQrcodeBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.bbyyxx2.myqrproject.ui.base.Constant;
+import com.bbyyxx2.myqrproject.ui.history.HistoryActivity;
+import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.hmsscankit.WriterException;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
@@ -47,6 +53,7 @@ import com.permissionx.guolindev.callback.RequestCallback;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
 
@@ -90,6 +97,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
                 String content = binding.etContent.getText().toString();
                 createQr(content);
+                ThreadUtil.runInNewThread(() -> {
+                    AppDatabase.getInstance(context).qrRecordDao().insertQRRecord(new QRRecord(content, System.currentTimeMillis()));
+                    return null;
+                });
             }
         });
 
@@ -268,6 +279,11 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             }
         });
 
+        binding.history.setOnClickListener(v -> {
+            Intent intent = new Intent(context, HistoryActivity.class);
+            intent.putExtra("type", HistoryConstant.QR_RECORD);
+            startActivity(intent);
+        });
     }
 
     // 定义SeekBar控件的监听器

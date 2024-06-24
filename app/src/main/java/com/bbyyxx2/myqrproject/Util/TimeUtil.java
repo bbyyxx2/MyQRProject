@@ -34,6 +34,18 @@ public class TimeUtil {
         return dateString;
     }
 
+    /**
+     * 格式化的 年-月-日
+     *
+     * @param timeMills
+     * @return yyyy-MM-dd
+     */
+    public static String getFormat(long timeMills, String format) {
+        Date dt = new Date(timeMills);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(dt);
+    }
+
 
     /**
      * 格式化的 年-月-日

@@ -14,6 +14,9 @@ data class QRRecord(
     @Ignore
     constructor(image: ByteArray, content: String, createTime: Long) : this(0L, image, content, createTime)
 
+    @Ignore
+    constructor(content: String, createTime: Long) : this(0L, byteArrayOf(), content, createTime)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
