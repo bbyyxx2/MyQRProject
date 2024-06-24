@@ -12,3 +12,4 @@ dependencyResolutionManagement {
 rootProject.name = "MyQRProject"
 include ':app'
 include ':dandelion'
+include ':database'
