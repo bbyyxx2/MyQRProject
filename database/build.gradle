@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.database'
+    namespace 'com.bbyyxx2.database'
     compileSdk 32
 
     defaultConfig {
@@ -41,7 +41,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //room数据库
-    implementation "androidx.room:room-ktx:2.4.1"
+    api "androidx.room:room-ktx:2.4.1"
     kapt "androidx.room:room-compiler:2.4.1"
-    implementation "androidx.room:room-runtime:2.4.1"
 }

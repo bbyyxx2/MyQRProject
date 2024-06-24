@@ -1,9 +1,9 @@
-package com.example.database.dao
+package com.bbyyxx2.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.database.entities.QRRecord
+import com.bbyyxx2.database.entities.QRRecord
 
 @Dao
 interface QRRecordDao {
