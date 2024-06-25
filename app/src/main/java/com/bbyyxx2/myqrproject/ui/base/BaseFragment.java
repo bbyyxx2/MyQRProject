@@ -2,6 +2,7 @@ package com.bbyyxx2.myqrproject.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,5 +65,37 @@ public abstract class BaseFragment<VB extends ViewBinding, VM extends ViewModel>
         super.onDestroyView();
         //释放持有，防止泄露
         binding = null;
+    }
+
+    /**
+     * 简易版跳转，无参
+     * @param cls
+     */
+    public void startActivity(Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        startActivity(intent);
+    }
+
+    /**
+     * 多参数跳转，用Bundle
+     * @param cls
+     * @param bundle
+     */
+    public void startActivity(Class<?> cls, Bundle bundle) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    /**
+     * 简易版跳转，单参
+     * @param cls
+     * @param key
+     * @param value
+     */
+    public void startActivity(Class<?> cls, String key, String value) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(key, value);
+        startActivity(intent);
     }
 }

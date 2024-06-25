@@ -1,14 +1,20 @@
 package com.bbyyxx2.myqrproject.ui.history.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +26,9 @@ import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.ItemQrRecordBinding;
 import com.bbyyxx2.myqrproject.databinding.ItemScanRecordBinding;
+import com.bbyyxx2.myqrproject.ui.base.BaseActivity;
 import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
+import com.bbyyxx2.myqrproject.ui.image.ShowImageActivity;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
 import com.huawei.hms.ml.scan.HmsScan;
@@ -98,7 +106,15 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
             try {
                 Bitmap qrBitmap = ScanUtil.buildBitmap(qrRecordList.get(position).getContent(), type, width, height, options);
-                ((ItemQrRecordBinding) holder.binding).image.setImageBitmap(qrBitmap);
+                ImageView imageView = ((ItemQrRecordBinding) holder.binding).image;
+                imageView.setImageBitmap(qrBitmap);
+                //点击放大，带共享元素动画
+                imageView.setOnClickListener(v -> {
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, imageView,"shareElement").toBundle();
+                    Intent intent = new Intent(mContext, ShowImageActivity.class);
+                    intent.putExtra("content", qrRecordList.get(position).getContent());
+                    mContext.startActivity(intent, bundle);
+                });
             } catch (Exception e){
                 e.printStackTrace();
             }

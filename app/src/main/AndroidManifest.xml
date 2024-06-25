@@ -36,5 +36,6 @@
         </activity>
 
         <activity android:name=".ui.history.HistoryActivity"/>
+        <activity android:name=".ui.image.ShowImageActivity"/>
     </application>
 </manifest>

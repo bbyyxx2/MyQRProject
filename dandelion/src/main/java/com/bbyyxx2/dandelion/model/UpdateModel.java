@@ -2,10 +2,11 @@ package com.bbyyxx2.dandelion.model;
 
 public class UpdateModel {
 
+
     /**
      * code : 0
      * message :
-     * data : {"buildBuildVersion":"1","forceUpdateVersion":"","forceUpdateVersionNo":"","needForceUpdate":false,"downloadURL":"https://www.pgyer.com/app/installUpdate/9836dd43ebad7f76282c30207ce063d1?sig=%2FKFYc1TJHFOxxqMJy9nqHpQUCZAsxnCw7FcBrz%2BlQ6BileceSk%2FU%2BB0V1ygzvKzv&forceHttps=","buildHaveNewVersion":false,"buildVersionNo":"3","buildVersion":"1.2","buildDescription":"bob的扫码和更新测试","buildUpdateDescription":"首次发布","appKey":"5372e3bf7e1026b91aec511b9a4fc958","buildKey":"9836dd43ebad7f76282c30207ce063d1","buildName":"扫一扫","buildIcon":"https://cdn-app-icon.pgyer.com/c/d/9/7/f/cd97ffc6fee4a3470bffd74f82518b5b?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg","buildFileKey":"7d4824499beb28791b3818f206a40028.apk","buildFileSize":"8476983"}
+     * data : {"buildBuildVersion":"8","forceUpdateVersion":"","forceUpdateVersionNo":"","needForceUpdate":false,"downloadURL":"https://www.pgyer.com/app/installUpdate/424433327e6050889f19130e9735bccb?sig=8QXQ5AH4KhKxZQViR8M2NiHECaIj0Khc%2BxVRN%2FFKuPEQ64I6Ki4tPwp7tzBaSu4p&forceHttps=","buildHaveNewVersion":true,"buildVersionNo":"8","buildVersion":"1.5.2","buildDescription":"","buildUpdateDescription":"新增了历史记录功能，开启保留功能后，每次记录将保留进历史记录中。","buildShortcutUrl":"https://www.pgyer.com/MyQRProject","appURl":"https://www.pgyer.com/424433327e6050889f19130e9735bccb","appKey":"192b1f7aa331090c61bccfae3f3723f5","buildKey":"424433327e6050889f19130e9735bccb","buildName":"扫码小生","buildIcon":"https://cdn-app-icon.pgyer.com/b/0/7/e/3/b07e3c58b0e733fad74b75f2afe0d065?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg","buildFileKey":"7edf8fd06bb36fb3f7b9b3cd99462739.apk","buildFileSize":"10178498"}
      */
 
     private int code;
@@ -38,22 +39,24 @@ public class UpdateModel {
 
     public static class DataBean {
         /**
-         * buildBuildVersion : 1
+         * buildBuildVersion : 8
          * forceUpdateVersion :
          * forceUpdateVersionNo :
          * needForceUpdate : false
-         * downloadURL : https://www.pgyer.com/app/installUpdate/9836dd43ebad7f76282c30207ce063d1?sig=%2FKFYc1TJHFOxxqMJy9nqHpQUCZAsxnCw7FcBrz%2BlQ6BileceSk%2FU%2BB0V1ygzvKzv&forceHttps=
-         * buildHaveNewVersion : false
-         * buildVersionNo : 3
-         * buildVersion : 1.2
-         * buildDescription : bob的扫码和更新测试
-         * buildUpdateDescription : 首次发布
-         * appKey : 5372e3bf7e1026b91aec511b9a4fc958
-         * buildKey : 9836dd43ebad7f76282c30207ce063d1
-         * buildName : 扫一扫
-         * buildIcon : https://cdn-app-icon.pgyer.com/c/d/9/7/f/cd97ffc6fee4a3470bffd74f82518b5b?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg
-         * buildFileKey : 7d4824499beb28791b3818f206a40028.apk
-         * buildFileSize : 8476983
+         * downloadURL : https://www.pgyer.com/app/installUpdate/424433327e6050889f19130e9735bccb?sig=8QXQ5AH4KhKxZQViR8M2NiHECaIj0Khc%2BxVRN%2FFKuPEQ64I6Ki4tPwp7tzBaSu4p&forceHttps=
+         * buildHaveNewVersion : true
+         * buildVersionNo : 8
+         * buildVersion : 1.5.2
+         * buildDescription :
+         * buildUpdateDescription : 新增了历史记录功能，开启保留功能后，每次记录将保留进历史记录中。
+         * buildShortcutUrl : https://www.pgyer.com/MyQRProject
+         * appURl : https://www.pgyer.com/424433327e6050889f19130e9735bccb
+         * appKey : 192b1f7aa331090c61bccfae3f3723f5
+         * buildKey : 424433327e6050889f19130e9735bccb
+         * buildName : 扫码小生
+         * buildIcon : https://cdn-app-icon.pgyer.com/b/0/7/e/3/b07e3c58b0e733fad74b75f2afe0d065?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg
+         * buildFileKey : 7edf8fd06bb36fb3f7b9b3cd99462739.apk
+         * buildFileSize : 10178498
          */
 
         private String buildBuildVersion;
@@ -66,6 +69,8 @@ public class UpdateModel {
         private String buildVersion;
         private String buildDescription;
         private String buildUpdateDescription;
+        private String buildShortcutUrl;
+        private String appURl;
         private String appKey;
         private String buildKey;
         private String buildName;
@@ -151,6 +156,22 @@ public class UpdateModel {
 
         public void setBuildUpdateDescription(String buildUpdateDescription) {
             this.buildUpdateDescription = buildUpdateDescription;
+        }
+
+        public String getBuildShortcutUrl() {
+            return buildShortcutUrl;
+        }
+
+        public void setBuildShortcutUrl(String buildShortcutUrl) {
+            this.buildShortcutUrl = buildShortcutUrl;
+        }
+
+        public String getAppURl() {
+            return appURl;
+        }
+
+        public void setAppURl(String appURl) {
+            this.appURl = appURl;
         }
 
         public String getAppKey() {

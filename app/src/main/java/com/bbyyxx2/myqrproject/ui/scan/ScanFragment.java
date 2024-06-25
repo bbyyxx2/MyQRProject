@@ -57,9 +57,7 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
         });
 
         binding.history.setOnClickListener(v -> {
-            Intent intent = new Intent(context, HistoryActivity.class);
-            intent.putExtra("type", HistoryConstant.SCAN_RECORD);
-            startActivity(intent);
+            startActivity(HistoryActivity.class, "type", HistoryConstant.SCAN_RECORD);
         });
     }
 

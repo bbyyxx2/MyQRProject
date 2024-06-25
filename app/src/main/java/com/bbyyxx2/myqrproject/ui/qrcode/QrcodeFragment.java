@@ -2,6 +2,7 @@ package com.bbyyxx2.myqrproject.ui.qrcode;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -27,6 +29,8 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bbyyxx2.database.database.AppDatabase;
@@ -43,6 +47,7 @@ import com.bbyyxx2.myqrproject.ui.base.BaseFragment;
 import com.bbyyxx2.myqrproject.ui.base.Constant;
 import com.bbyyxx2.myqrproject.ui.history.HistoryActivity;
 import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
+import com.bbyyxx2.myqrproject.ui.image.ShowImageActivity;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.hmsscankit.WriterException;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
@@ -116,7 +121,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             return false;
         });
 
-        binding.qrIv.setOnClickListener(v -> {
+        /*binding.qrIv.setOnClickListener(v -> {
             try { //容错
                 if (popupDialog != null) {
                     popupDialog.dismiss();
@@ -165,6 +170,13 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             } catch (Exception e) {
                 //showAtLocation
             }
+        });*/
+        //点击放大，带共享元素动画
+        binding.qrIv.setOnClickListener(v -> {
+            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v,"shareElement").toBundle();
+            Intent intent = new Intent(activity, ShowImageActivity.class);
+            intent.putExtra("content", binding.etContent.getText().toString());
+            startActivity(intent, bundle);
         });
         // 长按保存图片
         binding.qrIv.setOnLongClickListener(v -> {
@@ -280,9 +292,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         });
 
         binding.history.setOnClickListener(v -> {
-            Intent intent = new Intent(context, HistoryActivity.class);
-            intent.putExtra("type", HistoryConstant.QR_RECORD);
-            startActivity(intent);
+            startActivity(HistoryActivity.class, "type", HistoryConstant.QR_RECORD);
         });
     }
 

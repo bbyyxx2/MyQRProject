@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:layout_margin="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
@@ -20,7 +23,8 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_gravity="center"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:transitionName="shareElement"/>
 
         <TextView
             android:id="@+id/content"

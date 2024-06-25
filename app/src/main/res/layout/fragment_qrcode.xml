@@ -9,9 +9,9 @@
 
     <ImageButton
         android:id="@+id/history"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_history_blue"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_history_purple"
         android:background="#00ffffff"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/qr_card"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,8 @@
         <ImageView
             android:id="@+id/qr_iv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:transitionName="shareElement"/>
 
     </com.google.android.material.card.MaterialCardView>
 

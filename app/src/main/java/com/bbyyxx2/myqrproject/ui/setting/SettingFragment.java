@@ -24,6 +24,7 @@ import com.bbyyxx2.dandelion.OkhttpUtil;
 import com.bbyyxx2.dandelion.model.UpdateModel;
 import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.CommentUtil;
+import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.NetWorkUtil;
 import com.bbyyxx2.myqrproject.Util.T;
 import com.bbyyxx2.myqrproject.databinding.FragmentSettingBinding;
@@ -92,19 +93,19 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
                     .addBody("_api_key","89efd6870e572d850f2070111a9c8ee4")
                     .addBody("appKey","192b1f7aa331090c61bccfae3f3723f5")
                     .addBody("buildVersion",CommentUtil.getVersionName(context))
-                    .buildRequest("POST", new OkhttpUtil.OnRequest() {
+                    .setConvert(UpdateModel.class)
+                    .buildRequest("POST", new OkhttpUtil.OnRequest<UpdateModel>() {
                         @Override
                         public void onFailure(Exception e) {
-
+                            e.printStackTrace();
+                            T.showMsg("更新请求异常：" + e.getMessage());
                         }
 
                         @Override
-                        public void onResponse(int code, Object o) {
+                        public void onResponse(int code, UpdateModel update) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Gson gson = new Gson();
-                                    UpdateModel update = gson.fromJson(o.toString(), new TypeToken<UpdateModel>(){}.getType());
                                     if (update != null && update.getData() != null && update.getData().isBuildHaveNewVersion()) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                         builder.setTitle("发现更新");
@@ -134,7 +135,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
                         @Override
                         public void onErrorCode(int code) {
-
+                            T.showMsg("更新请求异常：code=" + code);
                         }
                     });
         } else {
