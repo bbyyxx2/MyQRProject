@@ -12,6 +12,7 @@ data class ScanRecord(
     val createTime:Long
 ) {
     //但ava 编译器无法识别 Kotlin 的默认参数特性，所以需要单独写一个构造函数，0L在存入后会重新自增赋值
+    //Ignore是因为room不能识别多个构造函数，需要帮它忽略的只剩一个
     @Ignore
-    constructor(content: String, createTime: Long) : this(0L, content, createTime)
+    constructor(content: String) : this(0L, content, System.currentTimeMillis())
 }

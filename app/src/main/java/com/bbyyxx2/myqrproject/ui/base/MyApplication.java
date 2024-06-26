@@ -3,6 +3,7 @@ package com.bbyyxx2.myqrproject.ui.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.tencent.mmkv.MMKV;
 
@@ -20,6 +21,8 @@ public class MyApplication extends Application {
         MMKV.initialize(this);
         //工具类初始化
         MMKVUtil.getInstance();
+        //初始化数据库
+        AppDatabase.init(this);
     }
 
     /**

@@ -18,19 +18,17 @@ abstract class AppDatabase : RoomDatabase(){
 
     companion object {
 
-        private var instance: AppDatabase? = null
+        const val DB_NAME = "qr_database"
+
+        lateinit var instance: AppDatabase
 
         @JvmStatic
-        fun getInstance(context: Context): AppDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "qr_database"
-                ).build().also {
-                    instance = it
-                }
-            }
+        fun init(context: Context) {
+            instance = Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                DB_NAME
+            ).build()
         }
     }
 }

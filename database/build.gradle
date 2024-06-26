@@ -42,5 +42,6 @@ dependencies {
 
     //room数据库
     api "androidx.room:room-ktx:2.4.1"
+    api "androidx.room:room-runtime:2.4.1"
     kapt "androidx.room:room-compiler:2.4.1"
 }

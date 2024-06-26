@@ -103,7 +103,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
                 String content = binding.etContent.getText().toString();
                 createQr(content);
                 ThreadUtil.runInNewThread(() -> {
-                    AppDatabase.getInstance(context).qrRecordDao().insertQRRecord(new QRRecord(content, System.currentTimeMillis()));
+                    AppDatabase.instance.qrRecordDao().insertQRRecord(new QRRecord(content));
                     return null;
                 });
             }

@@ -39,7 +39,7 @@ public class HistoryActivity extends BaseActivity<ActivityHistoryBinding, Histor
 
         if (HistoryConstant.SCAN_RECORD.equals(type)) {
             ThreadUtil.runInNewThread(() -> {
-                List<ScanRecord> scanRecordList = AppDatabase.getInstance(context).scanRecordDao().getAllOrderByCreateTime();
+                List<ScanRecord> scanRecordList = AppDatabase.instance.scanRecordDao().getAllOrderByCreateTime();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -52,7 +52,7 @@ public class HistoryActivity extends BaseActivity<ActivityHistoryBinding, Histor
             });
         } else if (HistoryConstant.QR_RECORD.equals(type)) {
             ThreadUtil.runInNewThread(() -> {
-                List<QRRecord> qrRecordList = AppDatabase.getInstance(context).qrRecordDao().getAllOrderByCreateTime();
+                List<QRRecord> qrRecordList = AppDatabase.instance.qrRecordDao().getAllOrderByCreateTime();
                 runOnUiThread(() -> {
                     adapter = new RecordAdapter<>(context, qrRecordList, type);
                     binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));

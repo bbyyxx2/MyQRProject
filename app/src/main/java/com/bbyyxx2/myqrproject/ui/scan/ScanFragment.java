@@ -72,7 +72,7 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
             if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
                 MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
                 ThreadUtil.runInNewThread(() -> {
-                    AppDatabase.getInstance(context).scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue, System.currentTimeMillis()));
+                    AppDatabase.instance.scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue));
                     return null;
                 });
             }
