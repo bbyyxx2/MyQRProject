@@ -23,3 +23,4 @@
 -keep class * extends androidx.lifecycle.ViewModel {
     <init>();
 }
+-keep class com.bbyyxx2.dandelion.model.* {*;}

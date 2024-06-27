@@ -1,6 +1,7 @@
 package com.bbyyxx2.dandelion;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -45,12 +46,14 @@ public class OkhttpUtil {
 
     public OkhttpUtil addBody(String key, String value){
         formBody.add(key, value);
+        Log.d(getClass().getSimpleName(),"addBody: " + key + ":" + value);
         return this;
     }
 
     public OkhttpUtil setUrl(String url){
         this.url = baseUrl + url;
         request.url(this.url);
+        Log.d(getClass().getSimpleName(), "url:" + url);
         return this;
     }
 
@@ -91,6 +94,7 @@ public class OkhttpUtil {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String body = response.body().string();
+                    Log.d(getClass().getSimpleName(), "onResponse:" + body);
                     if (tClass != null) {
                         onRequest.onResponse(response.code(), gson.fromJson(body, tClass));
                     } else {

@@ -11,8 +11,8 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 8
-        versionName "1.5.2"
+        versionCode 7
+        versionName "1.5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -72,8 +72,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0' // ViewPager 2 需要使用 RecycleView 的 adapter
     //腾讯MMKV
     implementation 'com.tencent:mmkv:1.2.11'
-    //Gson
-    implementation 'com.google.code.gson:gson:2.8.9'
     //权限请求permissionx
     implementation 'com.guolindev.permissionx:permissionx:1.7.0'
     //圆形iv

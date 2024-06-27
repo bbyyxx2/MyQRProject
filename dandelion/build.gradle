@@ -35,7 +35,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //Gson
-    implementation 'com.google.code.gson:gson:2.8.9'
+    api 'com.google.code.gson:gson:2.9.0'
     //okhttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    api 'com.squareup.okhttp3:okhttp:4.9.0'
 }
