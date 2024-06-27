@@ -102,10 +102,6 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             if (!TextUtils.isEmpty(Objects.requireNonNull(binding.etContent.getText()).toString())) {
                 String content = binding.etContent.getText().toString();
                 createQr(content);
-                ThreadUtil.runInNewThread(() -> {
-                    AppDatabase.instance.qrRecordDao().insertQRRecord(new QRRecord(content));
-                    return null;
-                });
             }
         });
 
@@ -350,6 +346,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
 
             if (MMKVUtil.getBoolean(Constant.LAST_QR_CONTENT_SWITCH, false)) {
                 MMKVUtil.put(Constant.LAST_QR_CONTENT, content);
+                ThreadUtil.runInNewThread(() -> {
+                    AppDatabase.instance.qrRecordDao().insertQRRecord(new QRRecord(content));
+                    return null;
+                });
             }
         } catch (WriterException e) {
             L.w("buildBitmap", e);

@@ -3,6 +3,7 @@ package com.bbyyxx2.myqrproject.ui.history.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DiffUtil;
@@ -20,9 +22,11 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.QRRecord;
 import com.bbyyxx2.database.entities.ScanRecord;
 import com.bbyyxx2.myqrproject.R;
+import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.ItemQrRecordBinding;
 import com.bbyyxx2.myqrproject.databinding.ItemScanRecordBinding;
@@ -36,6 +40,8 @@ import com.huawei.hms.ml.scan.HmsScan;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHolder> {
 
@@ -126,11 +132,44 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             ((ItemScanRecordBinding) holder.binding).content.setText(scanRecordList.get(position).getContent());
             ((ItemScanRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(scanRecordList.get(position).getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         }
+        //长按删除
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                deleteRecord(position);
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    private void deleteRecord(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("提示");
+        builder.setMessage("是否删除该条记录？");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    ThreadUtil.runInNewThread(() -> {
+                        if (mList.get(position) instanceof QRRecord){
+                            AppDatabase.instance.qrRecordDao().deleteQRRecord((QRRecord) mList.get(position));
+                        } else if (mList.get(position) instanceof ScanRecord){
+                            AppDatabase.instance.scanRecordDao().deleteScanRecord((ScanRecord) mList.get(position));
+                        }
+                        return null;
+                    }).get();
+                    mList.remove(position);
+                    notifyItemRemoved(position);
+                } catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).show();
     }
 }
 
