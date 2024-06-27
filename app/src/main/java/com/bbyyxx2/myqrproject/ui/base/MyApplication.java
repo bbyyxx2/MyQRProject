@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
 public class MyApplication extends Application {
@@ -23,6 +24,8 @@ public class MyApplication extends Application {
         MMKVUtil.getInstance();
         //初始化数据库
         AppDatabase.init(this);
+        //初始bugly
+        CrashReport.initCrashReport(getApplicationContext(), "345523f5be", false);
     }
 
     /**

@@ -23,4 +23,8 @@
 -keep class * extends androidx.lifecycle.ViewModel {
     <init>();
 }
+#网络请求模块的model包
 -keep class com.bbyyxx2.dandelion.model.* {*;}
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

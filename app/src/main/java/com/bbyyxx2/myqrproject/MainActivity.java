@@ -11,13 +11,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.bbyyxx2.myqrproject.databinding.ActivityMainBinding;
-import com.bbyyxx2.myqrproject.ui.scan.ScanFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
