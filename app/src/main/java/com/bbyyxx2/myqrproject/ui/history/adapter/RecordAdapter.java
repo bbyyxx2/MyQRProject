@@ -136,7 +136,7 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                deleteRecord(position);
+                deleteRecord(holder.getBindingAdapterPosition());
                 return false;
             }
         });

@@ -52,7 +52,7 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
 
         setDataList.add(new SetData("scan", "保留扫码结果", null, Constant.LAST_SCAN_SWITCH, 1));
         setDataList.add(new SetData("qr", "保留生码结果", null, Constant.LAST_QR_CONTENT_SWITCH, 1));
-        setDataList.add(new SetData("tts", "文字转语音功能", null, Constant.TTS_SWITCH, 1));
+//        setDataList.add(new SetData("tts", "文字转语音功能", null, Constant.TTS_SWITCH, 1));
         setDataList.add(new SetData("version", "软件版本：V" + CommentUtil.getVersionName(context), null, "", 3));
 
         adapter = new SettingAdapter(context, setDataList);

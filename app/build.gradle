@@ -11,8 +11,8 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 7
-        versionName "1.5.1"
+        versionCode 9
+        versionName "1.5.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,4 +83,11 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     //bugly
     implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+    //spiderMan
+    debugImplementation("com.github.simplepeng.SpiderMan:spiderman:v1.1.9") {
+        exclude group: "androidx.appcompat"
+    }
+    releaseImplementation("com.github.simplepeng.SpiderMan:spiderman-no-op:v1.1.9") {
+        exclude group: "androidx.appcompat"
+    }
 }

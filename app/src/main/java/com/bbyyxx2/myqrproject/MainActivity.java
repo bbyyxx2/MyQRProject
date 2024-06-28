@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         }
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setUserInputEnabled(false);
+        //现在一共有三个，为了触发Setting中的更新,改为全部懒加载
+        binding.viewPager.setOffscreenPageLimit(2);
 
         binding.navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
