@@ -1,5 +1,7 @@
 package com.bbyyxx2.myqrproject.ui.scan;
 
+import static com.bbyyxx2.myqrproject.MainActivity.REQUEST_CODE_SCAN_ONE;
+
 import android.Manifest;
 import android.content.Intent;
 import android.util.Log;
@@ -11,7 +13,6 @@ import androidx.lifecycle.Observer;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.ScanRecord;
-import com.bbyyxx2.myqrproject.MainActivity;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
@@ -22,7 +23,7 @@ import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 
-public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewModel> implements MainActivity.IOnActivityResult {
+public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewModel> {
 
     private static final int CAMERA_REQ_CODE = 111;
     private static final String[] permission = new String[]{
@@ -48,7 +49,6 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
             }
         });
 
-        ((MainActivity) activity).setiOnActivityResult(this);
         viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -62,19 +62,22 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
-        Log.e("test111","value=" + obj.originalValue);
-        if (obj != null) {
-            viewModel.setText(obj.originalValue);
+    public void onFragmentResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onFragmentResult(requestCode, resultCode, data);
 
-            if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
-                MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
-                ThreadUtil.runInNewThread(() -> {
-                    AppDatabase.instance.scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue));
-                    return null;
-                });
+        if (requestCode == REQUEST_CODE_SCAN_ONE) {
+            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+            Log.e("test111","value=" + obj.originalValue);
+            if (obj != null) {
+                viewModel.setText(obj.originalValue);
+
+                if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
+                    MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
+                    ThreadUtil.runInNewThread(() -> {
+                        AppDatabase.instance.scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue));
+                        return null;
+                    });
+                }
             }
         }
     }

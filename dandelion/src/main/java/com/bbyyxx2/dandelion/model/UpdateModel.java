@@ -1,6 +1,8 @@
 package com.bbyyxx2.dandelion.model;
 
-public class UpdateModel {
+import java.io.Serializable;
+
+public class UpdateModel implements Serializable{
 
 
     /**
@@ -37,7 +39,7 @@ public class UpdateModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * buildBuildVersion : 8
          * forceUpdateVersion :

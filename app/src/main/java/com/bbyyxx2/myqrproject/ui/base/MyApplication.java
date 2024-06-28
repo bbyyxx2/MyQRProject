@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
+import com.bbyyxx2.myqrproject.Util.NotificationUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 
@@ -25,7 +26,9 @@ public class MyApplication extends Application {
         //初始化数据库
         AppDatabase.init(this);
         //初始bugly
-        CrashReport.initCrashReport(getApplicationContext(), "345523f5be", false);
+        CrashReport.initCrashReport(this, MyKey.BUGLY_APP_ID, false);
+        //初始化通知
+        NotificationUtil.createNotificationChannel(this);
     }
 
     /**

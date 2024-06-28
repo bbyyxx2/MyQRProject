@@ -1,9 +1,11 @@
 # MyQRProject
 暂时是一个灵活的扫码工具。  
-拥有**扫码解析**、**扫描图片**、**指定文本生成rgb颜色二维码（长按保存相册）**
+拥有**扫码解析**、**扫描图片二维码**、**指定文本生成rgb颜色二维码（长按保存相册）**、**数据库保存历史记录**、更新检测和下载安装功能
 
-> 这里是最新版本的apk安装包[安装包地址跳转](https://github.com/bbyyxx2/MyQRProject/tree/main/newApk)
+> 这里是最新版本的apk安装包使用了[蒲公英发布平台](https://www.pgyer.com/MyQRProject)
+> 密码是bbyyxx2test
 
-> 这里是作者博客[落叶霞枫](https://blog.csdn.net/weixin_45920642?type=blog)
+> 这里是作者CSDN博客[落叶霞枫](https://blog.csdn.net/weixin_45920642?type=blog)
+> 这里是作者掘金博客[落叶霞枫](https://juejin.cn/user/2450129738541512)
 > 暂时没有详细讲解此项目的文章打算，因为项目整体需求略零散，自己也还是想一出是一出的情况，仅记录讲解关键功能代码
 > 感谢支持!!!

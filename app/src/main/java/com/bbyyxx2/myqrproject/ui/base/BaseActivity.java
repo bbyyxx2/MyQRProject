@@ -12,9 +12,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
-import com.bbyyxx2.myqrproject.ui.history.HistoryActivity;
-import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -95,5 +92,16 @@ public abstract class BaseActivity<VB extends ViewBinding, VM extends ViewModel>
         Intent intent = new Intent(context, cls);
         intent.putExtra(key, value);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        getSupportFragmentManager().getFragments().forEach(fragment -> {
+            if (fragment != null && fragment.isAdded() && fragment instanceof BaseFragment){
+                ((BaseFragment) fragment).onFragmentResult(requestCode, resultCode, data);
+            }
+        });
     }
 }

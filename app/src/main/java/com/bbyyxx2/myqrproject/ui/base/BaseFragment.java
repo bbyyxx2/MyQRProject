@@ -98,4 +98,9 @@ public abstract class BaseFragment<VB extends ViewBinding, VM extends ViewModel>
         intent.putExtra(key, value);
         startActivity(intent);
     }
+
+
+    public void onFragmentResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+    }
 }

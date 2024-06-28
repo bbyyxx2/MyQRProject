@@ -2,14 +2,11 @@ package com.bbyyxx2.myqrproject;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbyyxx2.myqrproject.databinding.ActivityMainBinding;
@@ -24,21 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private MainPagerAdapter adapter;
 
     private static final int CAMERA_REQ_CODE = 111;
-    private static final int REQUEST_CODE_SCAN_ONE = 0X01;
+    public static final int REQUEST_CODE_SCAN_ONE = 0X01;
     private static final String[] permission = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
-
-    public interface IOnActivityResult{
-        void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
-    }
-
-    private IOnActivityResult iOnActivityResult;
-
-    public void setiOnActivityResult(IOnActivityResult iOnActivityResult) {
-        this.iOnActivityResult = iOnActivityResult;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,20 +74,6 @@ public class MainActivity extends AppCompatActivity {
             // 调用扫码接口，构建扫码能力。
             ScanUtil.startScan(this, REQUEST_CODE_SCAN_ONE, new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE).create());
 //            HmsScanAnalyzer barcodeDetector = new HmsScanAnalyzer(new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE).create());
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK || data == null) {
-            Log.e("test111","code!=");
-            return;
-        }
-        if (requestCode == REQUEST_CODE_SCAN_ONE) {
-            if (iOnActivityResult != null) {
-                iOnActivityResult.onActivityResult(requestCode, resultCode, data);
-            }
         }
     }
 }
