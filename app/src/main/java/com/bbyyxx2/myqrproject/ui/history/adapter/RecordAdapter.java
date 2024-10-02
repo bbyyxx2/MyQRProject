@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -124,7 +126,13 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             } catch (Exception e){
                 e.printStackTrace();
             }
-            ((ItemQrRecordBinding) holder.binding).content.setText(qrRecordList.get(position).getContent());
+            if (!TextUtils.isEmpty(qrRecordList.get(position).getRemark())){
+                ((ItemQrRecordBinding) holder.binding).remark.setText("备注：" + qrRecordList.get(position).getRemark());
+            }
+            ((ItemQrRecordBinding) holder.binding).remark.setOnClickListener(v -> {
+                showEditDialog(qrRecordList.get(position));
+            });
+            ((ItemQrRecordBinding) holder.binding).content.setText("内容：" + qrRecordList.get(position).getContent());
             //时间戳转时间
             ((ItemQrRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(qrRecordList.get(position).getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         } else if (holder.binding instanceof ItemScanRecordBinding){
@@ -170,6 +178,24 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
                 }
             }
         }).show();
+    }
+
+    private void showEditDialog(QRRecord qrRecord) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("编辑备注");
+        EditText editText = new EditText(mContext);
+        editText.setText(qrRecord.getRemark());
+        builder.setView(editText);
+        builder.setPositiveButton("确定", (dialog, which) -> {
+            qrRecord.setRemark(editText.getText().toString());
+            ThreadUtil.runInNewThread(() -> {
+                AppDatabase.instance.qrRecordDao().updateQRRecord(qrRecord);
+                return null;
+            });
+            notifyItemChanged(mList.indexOf(qrRecord));
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
     }
 }
 

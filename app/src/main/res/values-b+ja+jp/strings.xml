@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--主要文字-->
+    <string name="app_name">スキャナー</string>
+    <string name="title_scan">掃  く</string>
+    <string name="title_qrcode">生成する</string>
+    <string name="title_setting">設  定</string>
+
+</resources>

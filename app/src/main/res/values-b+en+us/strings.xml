@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--主要文字-->
+    <string name="app_name">ScanHelper</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_qrcode">Create</string>
+    <string name="title_setting">Set</string>
+
+</resources>

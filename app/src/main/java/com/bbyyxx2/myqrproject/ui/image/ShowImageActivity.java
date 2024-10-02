@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.T;
@@ -52,7 +53,7 @@ public class ShowImageActivity extends BaseActivity<ActivityShowImageBinding, Sh
             // This ID represents the Home/Up button. In the case of this activity,
             // either showing the parent activity in a hierarchically structured app,
             // or exiting the app for top-level activities.
-            finish();
+            ActivityCompat.finishAfterTransition(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
