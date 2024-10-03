@@ -1,5 +1,7 @@
 package com.bbyyxx2.myqrproject.ui.setting;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -186,12 +188,21 @@ public class SettingFragment extends BaseFragment<FragmentSettingBinding, Settin
         startActivity(intent);
     }
 
+    /**
+     * 通过app自己下载文件
+     * @param dataBean
+     */
     private void getAppInstall2(UpdateModel.DataBean dataBean) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("MyQRProjectChannel1", "下载通知", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "MyQRProjectChannel1");
         builder.setContentTitle("下载中")
                 .setSmallIcon(R.mipmap.app_icon2)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
         StringBuilder url = new StringBuilder("app/install");
         url.append("?_api_key=").append(MyKey._api_key);

@@ -11,8 +11,8 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 11
-        versionName "1.5.5"
+        versionCode 12
+        versionName "1.5.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

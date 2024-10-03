@@ -2,7 +2,6 @@ package com.bbyyxx2.myqrproject.ui.qrcode;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +16,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -30,12 +25,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.QRRecord;
-import com.bbyyxx2.database.entities.ScanRecord;
 import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
@@ -58,7 +51,6 @@ import com.permissionx.guolindev.callback.RequestCallback;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeViewModel> {
 

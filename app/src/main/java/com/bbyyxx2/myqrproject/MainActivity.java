@@ -3,21 +3,18 @@ package com.bbyyxx2.myqrproject;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbyyxx2.myqrproject.databinding.ActivityMainBinding;
+import com.bbyyxx2.myqrproject.ui.base.BaseActivity2;
 import com.google.android.material.navigation.NavigationBarView;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 
-public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding binding;
+public class MainActivity extends BaseActivity2<ActivityMainBinding> {
     private MainPagerAdapter adapter;
 
     private static final int CAMERA_REQ_CODE = 111;
@@ -28,16 +25,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        initView();
-    }
-
-    private void initView(){
+    public void initView(){
         if (adapter == null){
             adapter = new MainPagerAdapter(this);
         }

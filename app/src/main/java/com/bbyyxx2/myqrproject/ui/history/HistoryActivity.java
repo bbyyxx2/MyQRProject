@@ -14,10 +14,7 @@ import com.bbyyxx2.myqrproject.ui.base.BaseActivity;
 import com.bbyyxx2.myqrproject.ui.history.adapter.RecordAdapter;
 import com.bbyyxx2.myqrproject.ui.history.util.HistoryConstant;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class HistoryActivity extends BaseActivity<ActivityHistoryBinding, HistoryViewModel> {
 
