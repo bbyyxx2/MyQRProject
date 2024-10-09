@@ -10,13 +10,16 @@ data class QRRecord(
     val image:ByteArray,
     val content:String,
     val createTime:Long,
-    var remark:String
+    var remark:String,
+    val red:Int = 0,
+    val green:Int = 0,
+    val blue:Int = 0
 ) {
     @Ignore
-    constructor(image: ByteArray, content: String, createTime: Long, remark: String) : this(0L, image, content, createTime, remark)
+    constructor(image: ByteArray, content: String, createTime: Long, remark: String, red: Int, green: Int, blue: Int) : this(0L, image, content, createTime, remark, red, green, blue)
 
     @Ignore
-    constructor(content: String) : this(0L, byteArrayOf(), content, System.currentTimeMillis(), "")
+    constructor(content: String, red: Int, green: Int, blue: Int) : this(0L, byteArrayOf(), content, System.currentTimeMillis(), "", red, green, blue)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

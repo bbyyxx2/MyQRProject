@@ -32,21 +32,27 @@ abstract class AppDatabase : RoomDatabase(){
                     context.applicationContext,
                     AppDatabase::class.java,
                     DB_NAME
-                ).addMigrations(MIGRATION_1_2).build()
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
             } catch (e: Exception){
-                Log.d("Migration", "Migration failed :" + e.message);
-//                if (e.message?.contains("migration") == true){
-//
-//                } else{
-//                    e.printStackTrace()
-//                }
+                Log.d("Database", "Migration failed :" + e.message);
             }
         }
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                Log.d("Migration", "Migration from 1 to 2")
+                Log.d("Database", "Migration from 1 to 2")
                 database.execSQL("ALTER TABLE qr_records ADD COLUMN remark TEXT not null default '' ")
+                Log.d("Database", "Migration success")
+            }
+        }
+
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                Log.d("Database", "Migration from 2 to 3")
+                database.execSQL("ALTER TABLE qr_records ADD COLUMN red INTEGER not null default 0 ")
+                database.execSQL("ALTER TABLE qr_records ADD COLUMN green INTEGER not null default 0 ")
+                database.execSQL("ALTER TABLE qr_records ADD COLUMN blue INTEGER not null default 0 ")
+                Log.d("Database", "Migration success")
             }
         }
     }

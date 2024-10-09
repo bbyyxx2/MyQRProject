@@ -18,6 +18,7 @@ import com.huawei.hms.ml.scan.HmsScan;
 
 /**
  * 用于展示图片的act，类似X或者微博微信点开图片的效果
+ * 需要用Intent传入content和rgb控制显示内容和颜色
  */
 public class ShowImageActivity extends BaseActivity<ActivityShowImageBinding, ShowImageViewModel> {
 
@@ -30,11 +31,17 @@ public class ShowImageActivity extends BaseActivity<ActivityShowImageBinding, Sh
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String content = getIntent().getStringExtra("content");
+        int rgb = getIntent().getIntExtra("rgb", -1);
+
+        if (content == null || rgb == -1){
+            T.showMsg("内容异常或rgb异常！");
+            return;
+        }
 
         binding.imageView.post(new Runnable() {
             @Override
             public void run() {
-                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
+                HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(rgb).setBitmapMargin(3).create();
                 try {
                     // 如果未设置HmsBuildBitmapOption对象，生成二维码参数options置null
                     Bitmap qrBitmap = ScanUtil.buildBitmap(content, HmsScan.QRCODE_SCAN_TYPE, binding.imageView.getWidth(), binding.imageView.getWidth(), options);

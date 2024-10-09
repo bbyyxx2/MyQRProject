@@ -107,38 +107,43 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
         // 在此处绑定数据到 ViewHolder
         if (holder.binding instanceof ItemQrRecordBinding){
             List<QRRecord> qrRecordList = (List<QRRecord>) mList;
+            QRRecord qrRecord = qrRecordList.get(position);
             //内容转二维码
             int type = HmsScan.QRCODE_SCAN_TYPE;
             int width = 150;
             int height = 150;
-            HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.BLACK).setBitmapMargin(3).create();
+            int rgb = Color.rgb(qrRecord.getRed(), qrRecord.getGreen(), qrRecord.getBlue());
+            HmsBuildBitmapOption options = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(rgb).setBitmapMargin(3).create();
             try {
-                Bitmap qrBitmap = ScanUtil.buildBitmap(qrRecordList.get(position).getContent(), type, width, height, options);
+                Bitmap qrBitmap = ScanUtil.buildBitmap(qrRecord.getContent(), type, width, height, options);
                 ImageView imageView = ((ItemQrRecordBinding) holder.binding).image;
                 imageView.setImageBitmap(qrBitmap);
                 //点击放大，带共享元素动画
                 imageView.setOnClickListener(v -> {
                     Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, imageView,"shareElement").toBundle();
                     Intent intent = new Intent(mContext, ShowImageActivity.class);
-                    intent.putExtra("content", qrRecordList.get(position).getContent());
+                    intent.putExtra("content", qrRecord.getContent());
+                    intent.putExtra("rgb", rgb);
                     mContext.startActivity(intent, bundle);
                 });
             } catch (Exception e){
                 e.printStackTrace();
             }
-            if (!TextUtils.isEmpty(qrRecordList.get(position).getRemark())){
-                ((ItemQrRecordBinding) holder.binding).remark.setText("备注：" + qrRecordList.get(position).getRemark());
+            if (!TextUtils.isEmpty(qrRecord.getRemark())){
+                ((ItemQrRecordBinding) holder.binding).remark.setText("备注：" + qrRecord.getRemark());
             }
             ((ItemQrRecordBinding) holder.binding).remark.setOnClickListener(v -> {
-                showEditDialog(qrRecordList.get(position));
+                showEditDialog(qrRecord);
             });
-            ((ItemQrRecordBinding) holder.binding).content.setText("内容：" + qrRecordList.get(position).getContent());
+            ((ItemQrRecordBinding) holder.binding).content.setText("内容：" + qrRecord.getContent());
             //时间戳转时间
-            ((ItemQrRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(qrRecordList.get(position).getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+            ((ItemQrRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(qrRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         } else if (holder.binding instanceof ItemScanRecordBinding){
             List<ScanRecord> scanRecordList = (List<ScanRecord>) mList;
-            ((ItemScanRecordBinding) holder.binding).content.setText(scanRecordList.get(position).getContent());
-            ((ItemScanRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(scanRecordList.get(position).getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+            ScanRecord scanRecord = scanRecordList.get(position);
+
+            ((ItemScanRecordBinding) holder.binding).content.setText(scanRecord.getContent());
+            ((ItemScanRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(scanRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         }
         //长按删除
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

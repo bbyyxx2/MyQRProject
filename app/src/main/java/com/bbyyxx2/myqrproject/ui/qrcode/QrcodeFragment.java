@@ -96,7 +96,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
                 createQr(content);
                 if (MMKVUtil.getBoolean(Constant.LAST_QR_CONTENT_SWITCH, false)) {
                     ThreadUtil.runInNewThread(() -> {
-                        AppDatabase.instance.qrRecordDao().insertQRRecord(new QRRecord(content));
+                        AppDatabase.instance.qrRecordDao().insertQRRecord(new QRRecord(content, binding.redSeekbar.getProgress(), binding.greenSeekbar.getProgress(), binding.blueSeekbar.getProgress()));
                         return null;
                     });
                 }
@@ -170,6 +170,7 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
             Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, v,"shareElement").toBundle();
             Intent intent = new Intent(activity, ShowImageActivity.class);
             intent.putExtra("content", binding.etContent.getText().toString());
+            intent.putExtra("rgb", getColor());
             startActivity(intent, bundle);
         });
         // 长按保存图片
@@ -351,6 +352,10 @@ public class QrcodeFragment extends BaseFragment<FragmentQrcodeBinding, QrcodeVi
         }
     }
 
+    /**
+     * 获取ui中填写的颜色值
+     * @return
+     */
     private int getColor() {
         // 获取SeekBar控件的当前值
         int redValue = binding.redSeekbar.getProgress();
