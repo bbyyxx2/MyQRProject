@@ -1,5 +1,7 @@
 package com.bbyyxx2.myqrproject.Util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -22,5 +24,13 @@ public class CommentUtil {
 
         return info.versionName;
 
+    }
+
+    public static void copyToClipboard(Context context, String text){
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = android.content.ClipData.newPlainText("text", text);
+        cm.setPrimaryClip(clipData);
+
+        T.showMsg("已复制到剪切板");
     }
 }

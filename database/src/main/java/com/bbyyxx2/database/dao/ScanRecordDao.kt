@@ -30,4 +30,7 @@ interface ScanRecordDao {
 
     @Query("Delete FROM scan_records")
     fun deleteAll()
+
+    @Query("SELECT * FROM scan_records WHERE remark LIKE '%' || :key || '%' ORDER BY createTime DESC")
+    fun selectScanRecordList(key: String): List<ScanRecord>
 }

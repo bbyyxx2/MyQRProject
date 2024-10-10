@@ -1,13 +1,16 @@
 package com.bbyyxx2.myqrproject.ui.history;
 
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.QRRecord;
 import com.bbyyxx2.database.entities.ScanRecord;
+import com.bbyyxx2.myqrproject.R;
 import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.databinding.ActivityHistoryBinding;
 import com.bbyyxx2.myqrproject.ui.base.BaseActivity;
@@ -58,6 +61,48 @@ public class HistoryActivity extends BaseActivity<ActivityHistoryBinding, Histor
                 return null;
             });
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        if (HistoryConstant.SCAN_RECORD.equals(type)) {
+            searchView.setQueryHint("请输入备注");
+        } else if (HistoryConstant.QR_RECORD.equals(type)) {
+            searchView.setQueryHint("请输入备注或内容");
+        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (HistoryConstant.SCAN_RECORD.equals(type)) {
+                    ThreadUtil.runInNewThread(() -> {
+                        List<ScanRecord> scanRecordList = AppDatabase.instance.scanRecordDao().selectScanRecordList(newText);
+                        runOnUiThread(() -> {
+                            adapter.setNewData(scanRecordList);
+                        });
+                        return null;
+                    });
+                } else if (HistoryConstant.QR_RECORD.equals(type)) {
+                    ThreadUtil.runInNewThread(() -> {
+                        List<QRRecord> qrRecordList = AppDatabase.instance.qrRecordDao().selectQRRecordList(newText);
+                        runOnUiThread(() -> {
+                            adapter.setNewData(qrRecordList);
+                        });
+                        return null;
+                    });
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

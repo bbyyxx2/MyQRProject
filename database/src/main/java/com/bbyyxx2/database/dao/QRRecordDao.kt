@@ -29,4 +29,7 @@ interface QRRecordDao {
 
     @Query("DELETE FROM qr_records")
     fun deleteAll()
+
+    @Query("SELECT * FROM qr_records WHERE content LIKE '%' || :key || '%' OR remark LIKE '%' || :key || '%' ORDER BY createTime DESC")
+    fun selectQRRecordList(key: String): List<QRRecord>
 }

@@ -28,6 +28,7 @@ import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.QRRecord;
 import com.bbyyxx2.database.entities.ScanRecord;
 import com.bbyyxx2.myqrproject.R;
+import com.bbyyxx2.myqrproject.Util.CommentUtil;
 import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.Util.TimeUtil;
 import com.bbyyxx2.myqrproject.databinding.ItemQrRecordBinding;
@@ -71,6 +72,12 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
         // 初始化类型到布局的映射
         typeToLayoutMap.put(HistoryConstant.SCAN_RECORD, R.layout.item_scan_record);
         typeToLayoutMap.put(HistoryConstant.QR_RECORD, R.layout.item_qr_record);
+    }
+
+    public void setNewData(List<T> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
     }
 
     private ViewBinding getBinding(int layoutId, ViewGroup parent) {
@@ -136,6 +143,9 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
                 showEditDialog(qrRecord);
             });
             ((ItemQrRecordBinding) holder.binding).content.setText("内容：" + qrRecord.getContent());
+            ((ItemQrRecordBinding) holder.binding).content.setOnClickListener(v -> {
+                CommentUtil.copyToClipboard(mContext, qrRecord.getContent());
+            });
             //时间戳转时间
             ((ItemQrRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(qrRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         } else if (holder.binding instanceof ItemScanRecordBinding){
@@ -143,7 +153,18 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             ScanRecord scanRecord = scanRecordList.get(position);
 
             ((ItemScanRecordBinding) holder.binding).content.setText(scanRecord.getContent());
+            ((ItemScanRecordBinding) holder.binding).content.setOnClickListener(v -> {
+                CommentUtil.copyToClipboard(mContext, scanRecord.getContent());
+            });
             ((ItemScanRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(scanRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+
+            //备注
+            if (!TextUtils.isEmpty(scanRecord.getRemark())){
+                ((ItemScanRecordBinding) holder.binding).remark.setText("备注：" + scanRecord.getRemark());
+            }
+            ((ItemScanRecordBinding) holder.binding).remark.setOnClickListener(v -> {
+                showEditDialog(scanRecord);
+            });
         }
         //长按删除
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -185,19 +206,34 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
         }).show();
     }
 
-    private void showEditDialog(QRRecord qrRecord) {
+    private void showEditDialog(Object object) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("编辑备注");
         EditText editText = new EditText(mContext);
-        editText.setText(qrRecord.getRemark());
+        if (object instanceof QRRecord){
+            editText.setText(((QRRecord) object).getRemark());
+        } else if (object instanceof ScanRecord){
+            editText.setText(((ScanRecord) object).getRemark());
+        }
         builder.setView(editText);
         builder.setPositiveButton("确定", (dialog, which) -> {
-            qrRecord.setRemark(editText.getText().toString());
-            ThreadUtil.runInNewThread(() -> {
-                AppDatabase.instance.qrRecordDao().updateQRRecord(qrRecord);
-                return null;
-            });
-            notifyItemChanged(mList.indexOf(qrRecord));
+            if (object instanceof QRRecord){
+                QRRecord qrRecord = (QRRecord) object;
+                qrRecord.setRemark(editText.getText().toString());
+                ThreadUtil.runInNewThread(() -> {
+                    AppDatabase.instance.qrRecordDao().updateQRRecord(qrRecord);
+                    return null;
+                });
+                notifyItemChanged(mList.indexOf(qrRecord));
+            } else if (object instanceof ScanRecord){
+                ScanRecord scanRecord = (ScanRecord) object;
+                scanRecord.setRemark(editText.getText().toString());
+                ThreadUtil.runInNewThread(() -> {
+                    AppDatabase.instance.scanRecordDao().updateScanRecord(scanRecord);
+                    return null;
+                });
+                notifyItemChanged(mList.indexOf(scanRecord));
+            }
         });
         builder.setNegativeButton("取消", null);
         builder.show();

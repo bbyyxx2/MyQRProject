@@ -32,7 +32,7 @@ abstract class AppDatabase : RoomDatabase(){
                     context.applicationContext,
                     AppDatabase::class.java,
                     DB_NAME
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build()
             } catch (e: Exception){
                 Log.d("Database", "Migration failed :" + e.message);
             }
@@ -52,6 +52,14 @@ abstract class AppDatabase : RoomDatabase(){
                 database.execSQL("ALTER TABLE qr_records ADD COLUMN red INTEGER not null default 0 ")
                 database.execSQL("ALTER TABLE qr_records ADD COLUMN green INTEGER not null default 0 ")
                 database.execSQL("ALTER TABLE qr_records ADD COLUMN blue INTEGER not null default 0 ")
+                Log.d("Database", "Migration success")
+            }
+        }
+
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                Log.d("Database", "Migration from 3 to 4")
+                database.execSQL("ALTER TABLE scan_records ADD COLUMN remark TEXT not null default '' ")
                 Log.d("Database", "Migration success")
             }
         }
