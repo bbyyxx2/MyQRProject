@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 
 import com.bbyyxx2.database.database.AppDatabase;
 import com.bbyyxx2.database.entities.ScanRecord;
+import com.bbyyxx2.myqrproject.Util.L;
 import com.bbyyxx2.myqrproject.Util.MMKVUtil;
 import com.bbyyxx2.myqrproject.Util.ThreadUtil;
 import com.bbyyxx2.myqrproject.databinding.FragmentScanBinding;
@@ -67,17 +68,10 @@ public class ScanFragment extends BaseFragment<FragmentScanBinding, ScanViewMode
 
         if (requestCode == REQUEST_CODE_SCAN_ONE) {
             HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
-            Log.e("test111","value=" + obj.originalValue);
+            L.e("test111","value=" + obj.originalValue);
             if (obj != null) {
-                viewModel.setText(obj.originalValue);
-
-                if (MMKVUtil.getBoolean(Constant.LAST_SCAN_SWITCH, false)){
-                    MMKVUtil.put(Constant.LAST_SCAN_CONTENT, obj.originalValue);
-                    ThreadUtil.runInNewThread(() -> {
-                        AppDatabase.instance.scanRecordDao().insertScanRecord(new ScanRecord(obj.originalValue));
-                        return null;
-                    });
-                }
+                // 将扫码结果交给 ViewModel 处理，Fragment 不再关心具体的保存逻辑
+                viewModel.handleScanResult(obj.originalValue);
             }
         }
     }

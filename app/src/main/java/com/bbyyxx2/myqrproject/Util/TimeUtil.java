@@ -102,9 +102,9 @@ public class TimeUtil {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getFormatISO8601(String iso8601) {
         OffsetDateTime offsetDateTime = OffsetDateTime.parse(iso8601);
-        System.out.println("until: " + iso8601);
+        L.d("until: " + iso8601);
         String formatTime = offsetDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println("time: " + formatTime);
+        L.d("time: " + formatTime);
         return formatTime;
     }
 

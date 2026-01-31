@@ -1,5 +1,6 @@
 package com.bbyyxx2.dandelion;
 
+import android.util.Log;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
@@ -33,7 +34,7 @@ public class ProgressInterceptor implements Interceptor {
                 onProgress.onProgress((int) (downloaded * 100 / contentLengthLong));
             }
         }
-        System.out.println(progress.toString()); // 打印下载进度
+        Log.d("ProgressInterceptor", progress.toString()); // 打印下载进度
         return originalResponse;
     }
 

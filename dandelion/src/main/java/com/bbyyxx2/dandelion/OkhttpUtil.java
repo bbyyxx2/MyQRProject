@@ -127,7 +127,7 @@ public class OkhttpUtil {
                         @Override
                         public void onProgress(long bytesRead, long contentLength) {
                             onDownloadRequest.onProgress((int) (bytesRead * 100 / contentLength));
-                            System.out.println((int) (bytesRead * 100 / contentLength)); // 打印下载进度
+                            Log.d("Download", "progress: " + (int) (bytesRead * 100 / contentLength)); // 打印下载进度
                         }
                     });
 //                    ResponseBody responseBody = response.body();
