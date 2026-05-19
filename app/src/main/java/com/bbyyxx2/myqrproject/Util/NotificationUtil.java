@@ -13,7 +13,7 @@ public class NotificationUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "下载进度";
             String description = "用于App下载Apk时通知提示下载进度";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("MyQRProjectChannel1", name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance

@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.bbyyxx2.myqrproject.ui.qrcode.QrcodeFragment;
 import com.bbyyxx2.myqrproject.ui.scan.ScanFragment;
-import com.bbyyxx2.myqrproject.ui.setting.SettingFragment;
+import com.bbyyxx2.myqrproject.ui.setting.SettingsFragment;
 
 public class MainPagerAdapter extends FragmentStateAdapter {
 
@@ -34,7 +34,7 @@ public class MainPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new QrcodeFragment();
             case 2:
-                return new SettingFragment();
+                return new SettingsFragment();
             default:
                 return null;
         }

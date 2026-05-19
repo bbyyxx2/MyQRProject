@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 第一部分：功能设置 -->
+    <PreferenceCategory
+        android:title="功能设置">
+
+        <!-- SwitchPreference: 保留扫码结果 -->
+        <SwitchPreferenceCompat
+            android:key="lastQrScanSwitch"
+            android:title="保留扫码结果"
+            android:defaultValue="false"
+            android:summary="启用后将保存上次扫码内容" />
+
+        <!-- SwitchPreference: 保留生码结果 -->
+        <SwitchPreferenceCompat
+            android:key="lastQrContentSwitch"
+            android:title="保留生码结果"
+            android:defaultValue="false"
+            android:summary="启用后将保存上次生成的二维码内容" />
+    </PreferenceCategory>
+
+    <!-- 第二部分：关于 -->
+    <PreferenceCategory
+        android:title="关于">
+
+        <!-- 软件版本号（可点击检查更新） -->
+        <Preference
+            android:key="pref_app_version"
+            android:title="软件版本"
+            android:summary="V1.0.0" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

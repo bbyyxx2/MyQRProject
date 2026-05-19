@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class SettingFragment extends BaseFragment<FragmentSettingBinding, SettingViewModel> {
 
     private static final int REQUEST_CODE = 222;

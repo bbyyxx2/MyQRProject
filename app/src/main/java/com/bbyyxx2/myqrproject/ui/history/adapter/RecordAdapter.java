@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -144,7 +146,7 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             });
             ((ItemQrRecordBinding) holder.binding).content.setText("内容：" + qrRecord.getContent());
             ((ItemQrRecordBinding) holder.binding).content.setOnClickListener(v -> {
-                CommentUtil.copyToClipboard(mContext, qrRecord.getContent());
+                showFullContentDialog(qrRecord.getContent());
             });
             //时间戳转时间
             ((ItemQrRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(qrRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -154,7 +156,7 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
 
             ((ItemScanRecordBinding) holder.binding).content.setText(scanRecord.getContent());
             ((ItemScanRecordBinding) holder.binding).content.setOnClickListener(v -> {
-                CommentUtil.copyToClipboard(mContext, scanRecord.getContent());
+                showFullContentDialog(scanRecord.getContent());
             });
             ((ItemScanRecordBinding) holder.binding).createTime.setText(TimeUtil.getFormat(scanRecord.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 
@@ -236,6 +238,27 @@ public class RecordAdapter<T> extends ListAdapter<T, RecordAdapter.RecordViewHol
             }
         });
         builder.setNegativeButton("取消", null);
+        builder.show();
+    }
+
+    private void showFullContentDialog(String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("内容预览");
+
+        ScrollView scrollView = new ScrollView(mContext);
+        TextView textView = new TextView(mContext);
+        int padding = (int) (16 * mContext.getResources().getDisplayMetrics().density);
+        textView.setPadding(padding, padding, padding, padding);
+        textView.setTextSize(16);
+        textView.setText(content);
+        textView.setTextIsSelectable(true);
+        scrollView.addView(textView);
+
+        builder.setView(scrollView);
+        builder.setPositiveButton("复制", (dialog, which) -> {
+            CommentUtil.copyToClipboard(mContext, content);
+        });
+        builder.setNegativeButton("关闭", null);
         builder.show();
     }
 }

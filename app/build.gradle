@@ -11,8 +11,8 @@ android {
         applicationId "com.bbyyxx2.myqrproject"
         minSdk 24
         targetSdk 32
-        versionCode 12
-        versionName "1.5.6"
+        versionCode 13
+        versionName "1.5.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -84,10 +84,10 @@ dependencies {
     //bugly
     implementation 'com.tencent.bugly:crashreport:4.1.9.3'
     //spiderMan
-    debugImplementation("com.github.simplepeng.SpiderMan:spiderman:v1.1.9") {
-        exclude group: "androidx.appcompat"
-    }
-    releaseImplementation("com.github.simplepeng.SpiderMan:spiderman-no-op:v1.1.9") {
-        exclude group: "androidx.appcompat"
-    }
+//    debugImplementation("com.github.simplepeng.SpiderMan:spiderman:v1.1.9") {
+//        exclude group: "androidx.appcompat"
+//    }
+//    releaseImplementation("com.github.simplepeng.SpiderMan:spiderman-no-op:v1.1.9") {
+//        exclude group: "androidx.appcompat"
+//    }
 }

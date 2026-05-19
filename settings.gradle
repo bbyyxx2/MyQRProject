@@ -1,9 +1,12 @@
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+//        google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+//        jcenter() // Warning: this repository is going to shut down soon
         maven { url 'https://developer.huawei.com/repo/' }
         maven { url 'https://jitpack.io' }
     }
