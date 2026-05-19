@@ -12,7 +12,7 @@ import com.bbyyxx2.database.dao.ScanRecordDao
 import com.bbyyxx2.database.entities.QRRecord
 import com.bbyyxx2.database.entities.ScanRecord
 
-@Database(version = 2, entities = [QRRecord::class, ScanRecord::class], exportSchema = false)
+@Database(version = 4, entities = [QRRecord::class, ScanRecord::class], exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun qrRecordDao(): QRRecordDao
