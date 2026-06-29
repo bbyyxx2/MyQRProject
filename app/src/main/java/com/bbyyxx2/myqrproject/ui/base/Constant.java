@@ -41,4 +41,12 @@ public class Constant {
      * tts开关，value应为boolean
      */
     public static final String TTS_SWITCH = "TTSSwitch";
+
+    /**
+     * 扫描类型配置
+     * 0: 仅二维码
+     * 1: 仅条形码
+     * 2: 全部（二维码+条形码）
+     */
+    public static final String SCAN_TYPE = "scanType";
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 扫描类型选项显示文本 -->
+    <string-array name="scan_type_entries">
+        <item>仅二维码</item>
+        <item>仅条形码</item>
+        <item>全部（二维码+条形码）</item>
+    </string-array>
+
+    <!-- 扫描类型选项值 -->
+    <string-array name="scan_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

@@ -41,7 +41,7 @@ abstract class AppDatabase : RoomDatabase(){
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 Log.d("Database", "Migration from 1 to 2")
-                database.execSQL("ALTER TABLE qr_records ADD COLUMN remark TEXT not null default '' ")
+                addColumnIfNotExists(database, "qr_records", "remark", "TEXT not null default ''")
                 Log.d("Database", "Migration success")
             }
         }
@@ -49,9 +49,9 @@ abstract class AppDatabase : RoomDatabase(){
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 Log.d("Database", "Migration from 2 to 3")
-                database.execSQL("ALTER TABLE qr_records ADD COLUMN red INTEGER not null default 0 ")
-                database.execSQL("ALTER TABLE qr_records ADD COLUMN green INTEGER not null default 0 ")
-                database.execSQL("ALTER TABLE qr_records ADD COLUMN blue INTEGER not null default 0 ")
+                addColumnIfNotExists(database, "qr_records", "red", "INTEGER not null default 0")
+                addColumnIfNotExists(database, "qr_records", "green", "INTEGER not null default 0")
+                addColumnIfNotExists(database, "qr_records", "blue", "INTEGER not null default 0")
                 Log.d("Database", "Migration success")
             }
         }
@@ -59,8 +59,33 @@ abstract class AppDatabase : RoomDatabase(){
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 Log.d("Database", "Migration from 3 to 4")
-                database.execSQL("ALTER TABLE scan_records ADD COLUMN remark TEXT not null default '' ")
+                addColumnIfNotExists(database, "scan_records", "remark", "TEXT not null default ''")
                 Log.d("Database", "Migration success")
+            }
+        }
+
+        private fun addColumnIfNotExists(
+            database: SupportSQLiteDatabase,
+            table: String,
+            column: String,
+            definition: String
+        ) {
+            val cursor = database.query("PRAGMA table_info($table)")
+            var exists = false
+            if (cursor.moveToFirst()) {
+                do {
+                    val nameIndex = cursor.getColumnIndex("name")
+                    if (nameIndex >= 0 && cursor.getString(nameIndex) == column) {
+                        exists = true
+                        break
+                    }
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+            if (!exists) {
+                database.execSQL("ALTER TABLE $table ADD COLUMN $column $definition")
+            } else {
+                Log.d("Database", "Column $table.$column already exists, skip")
             }
         }
     }

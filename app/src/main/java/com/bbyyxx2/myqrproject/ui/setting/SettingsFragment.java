@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
@@ -38,6 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private Activity activity;
 
     // Preference 引用
+    private ListPreference scanTypePreference;
     private SwitchPreferenceCompat scanSwitch;
     private SwitchPreferenceCompat qrSwitch;
     private Preference versionPreference;
@@ -72,9 +74,30 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      */
     private void initPreferences() {
         // 获取Preference引用
+        scanTypePreference = findPreference(Constant.SCAN_TYPE);
         scanSwitch = findPreference(Constant.LAST_SCAN_SWITCH);
         qrSwitch = findPreference(Constant.LAST_QR_CONTENT_SWITCH);
         versionPreference = findPreference("pref_app_version");
+
+        // 扫描类型监听
+        if (scanTypePreference != null) {
+            // 初始化显示当前选中项
+            String currentEntry = scanTypePreference.getEntry() != null
+                    ? scanTypePreference.getEntry().toString()
+                    : "";
+            scanTypePreference.setSummary(currentEntry);
+
+            scanTypePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                String[] entries = getResources().getStringArray(R.array.scan_type_entries);
+                int index = ((ListPreference) preference).findIndexOfValue((String) newValue);
+                if (index >= 0) {
+                    String selected = entries[index];
+                    preference.setSummary(selected);
+                    T.showMsg("扫描类型已设为：" + selected);
+                }
+                return true;
+            });
+        }
 
         // 设置版本号
         if (versionPreference != null) {
